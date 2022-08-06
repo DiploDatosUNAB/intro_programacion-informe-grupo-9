@@ -44,7 +44,7 @@ empleo_genero
 
 ```{r}
 # comparación del desempleo por género
-ggplot2
+
 ```
 
 
