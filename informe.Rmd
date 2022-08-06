@@ -27,7 +27,24 @@ Posible comparación con la región
 
 ```{r}
 # Código para cargar o leer los datos
-empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina")
+empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
+# Eliminamos las columnas de años que no tiene datos para simplificar el análisis
+```
+```{r}
+# Visualizo la nueva tabla
+empleo_genero
+```
+```{r}
+empleo_genero <- pivot_longer(empleo_genero,cols=2:3,names_to = "Anio",values_to = "cantidad",values_drop_na = FALSE)
+```
+```{r}
+empleo_genero
+```
+
+
+```{r}
+# comparación del desempleo por género
+ggplot2
 ```
 
 
