@@ -35,7 +35,7 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 empleo_genero
 ```
 ```{r}
-empleo_genero <- pivot_longer(empleo_genero,cols=2:3,names_to = "Anio",values_to = "cantidad",values_drop_na = FALSE)
+empleo_genero <- pivot_longer(empleo_genero,cols=2:3,names_to = "Anio",values_to = "cantidad")
 ```
 ```{r}
 empleo_genero
