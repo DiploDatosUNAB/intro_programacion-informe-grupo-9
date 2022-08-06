@@ -1,5 +1,5 @@
 ---
-title: "La evolución del empleo a nivel global desde el punto de vista de género ################"
+title: "La evolución del empleo a nivel global desde el punto de vista de género ################ en Argentina"
 author: "Marianela Pi y Patricia Perrone"
 output: html_document
 ---
@@ -13,21 +13,21 @@ library(readr)
 library(readxl)
 library(ggplot2)
 library(dplyr)
-
+library(tidyr)
 ```
 
 
 ## Introducción
 
-
+Corte en Argentina
+Posible comparación con la región
 
 ## Exploración de los datos
 
 
 ```{r}
 # Código para cargar o leer los datos
-
-empleoG <- read.csv("datos/empleo_genero.csv")
+empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina")
 ```
 
 
@@ -40,5 +40,12 @@ empleoG <- read.csv("datos/empleo_genero.csv")
 
 
 ## Hipótesis
+
+
+## Conclusiones
+
+
+
+
 
 
