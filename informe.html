@@ -471,29 +471,43 @@ empleo_genero</code></pre>
 ## 18     NA  7.51300     NA
 ## 19     NA       NA     NA
 ## 20     NA       NA     NA</code></pre>
-<pre class="r"><code>empleo_genero &lt;- pivot_longer(empleo_genero,cols=2:3,names_to = &quot;Anio&quot;,values_to = &quot;cantidad&quot;,values_drop_na = FALSE)</code></pre>
-<pre class="r"><code>empleo_genero</code></pre>
-<pre><code>## # A tibble: 40 x 38
-##    varia~1 X1984 X1985 X1986 X1987 X1988 X1989 X1990  X1991  X1992  X1993  X1994
-##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1 emplea~    NA    NA    NA    NA    NA    NA    NA  2.06   2.46   3.20   2.47 
-##  2 emplea~    NA    NA    NA    NA    NA    NA    NA  2.06   2.46   3.20   2.47 
-##  3 emplea~    NA    NA    NA    NA    NA    NA    NA  6.76   7.48   7.49   6.34 
-##  4 emplea~    NA    NA    NA    NA    NA    NA    NA  6.76   7.48   7.49   6.34 
-##  5 empleo~    NA    NA    NA    NA    NA    NA    NA  0.135  0.321  0.296  0.240
-##  6 empleo~    NA    NA    NA    NA    NA    NA    NA  0.135  0.321  0.296  0.240
-##  7 empleo~    NA    NA    NA    NA    NA    NA    NA  0.472  0.455  0.553  0.591
-##  8 empleo~    NA    NA    NA    NA    NA    NA    NA  0.472  0.455  0.553  0.591
-##  9 empleo~    NA    NA    NA    NA    NA    NA    NA 19.8   18.9   16.2   14.5  
-## 10 empleo~    NA    NA    NA    NA    NA    NA    NA 19.8   18.9   16.2   14.5  
-## # ... with 30 more rows, 26 more variables: X1995 &lt;dbl&gt;, X1996 &lt;dbl&gt;,
-## #   X1997 &lt;dbl&gt;, X1998 &lt;dbl&gt;, X1999 &lt;dbl&gt;, X2000 &lt;dbl&gt;, X2001 &lt;dbl&gt;,
-## #   X2002 &lt;dbl&gt;, X2003 &lt;dbl&gt;, X2004 &lt;dbl&gt;, X2005 &lt;dbl&gt;, X2006 &lt;dbl&gt;,
-## #   X2007 &lt;dbl&gt;, X2008 &lt;dbl&gt;, X2009 &lt;dbl&gt;, X2010 &lt;dbl&gt;, X2011 &lt;dbl&gt;,
-## #   X2012 &lt;dbl&gt;, X2013 &lt;dbl&gt;, X2014 &lt;dbl&gt;, X2015 &lt;dbl&gt;, X2016 &lt;dbl&gt;,
-## #   X2017 &lt;dbl&gt;, X2018 &lt;dbl&gt;, Anio &lt;chr&gt;, cantidad &lt;dbl&gt;, and abbreviated
-## #   variable name 1: variable
-## # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>empleo_Arg &lt;- pivot_longer(empleo_genero, cols=2:38, names_to = &quot;Anio&quot;, values_to = &quot;cantidad&quot;)</code></pre>
+<pre class="r"><code>print(empleo_Arg,n = 30)</code></pre>
+<pre><code>## # A tibble: 740 x 3
+##    variable            Anio  cantidad
+##    &lt;chr&gt;               &lt;chr&gt;    &lt;dbl&gt;
+##  1 empleadoras_mujeres X1982    NA   
+##  2 empleadoras_mujeres X1983    NA   
+##  3 empleadoras_mujeres X1984    NA   
+##  4 empleadoras_mujeres X1985    NA   
+##  5 empleadoras_mujeres X1986    NA   
+##  6 empleadoras_mujeres X1987    NA   
+##  7 empleadoras_mujeres X1988    NA   
+##  8 empleadoras_mujeres X1989    NA   
+##  9 empleadoras_mujeres X1990    NA   
+## 10 empleadoras_mujeres X1991     2.06
+## 11 empleadoras_mujeres X1992     2.46
+## 12 empleadoras_mujeres X1993     3.20
+## 13 empleadoras_mujeres X1994     2.47
+## 14 empleadoras_mujeres X1995     2.35
+## 15 empleadoras_mujeres X1996     2.45
+## 16 empleadoras_mujeres X1997     2.48
+## 17 empleadoras_mujeres X1998     2.44
+## 18 empleadoras_mujeres X1999     2.51
+## 19 empleadoras_mujeres X2000     2.97
+## 20 empleadoras_mujeres X2001     2.47
+## 21 empleadoras_mujeres X2002     1.91
+## 22 empleadoras_mujeres X2003     2.18
+## 23 empleadoras_mujeres X2004     2.37
+## 24 empleadoras_mujeres X2005     2.25
+## 25 empleadoras_mujeres X2006     2.36
+## 26 empleadoras_mujeres X2007     2.56
+## 27 empleadoras_mujeres X2008     2.85
+## 28 empleadoras_mujeres X2009     2.97
+## 29 empleadoras_mujeres X2010     2.90
+## 30 empleadoras_mujeres X2011     2.62
+## # ... with 710 more rows
+## # i Use `print(n = ...)` to see more rows</code></pre>
 <pre class="r"><code># comparación del desempleo por género</code></pre>
 <pre class="r"><code># Cödigo de R acá 
 # Agregá más bloques según sea necesario</code></pre>
