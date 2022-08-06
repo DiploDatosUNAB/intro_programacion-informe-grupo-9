@@ -1,5 +1,5 @@
 ---
-title: "La evolución del empleo a nivel global desde el punto de vista de género ################ en Argentina"
+title: "La evolución del empleo en Argentina desde el punto de vista de género"
 author: "Marianela Pi y Patricia Perrone"
 output: html_document
 ---
@@ -19,8 +19,10 @@ library(tidyr)
 
 ## Introducción
 
-Corte en Argentina
-Posible comparación con la región
+<p>Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provintos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.</p>
+
+<p>Para ajustar los datos al alcance de este análisis, se utilizarán sólo los datos de Argentina comprendidos entre los años 1982 y 2018, que es el período en donde Argentina relevó datos. Fuera de ese período no hay información disponible.</p>
+
 
 ## Exploración de los datos
 
@@ -28,13 +30,11 @@ Posible comparación con la región
 ```{r}
 # Código para cargar o leer los datos
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
-# Eliminamos las columnas de años que no tiene datos para simplificar el análisis
+# Filtramos por oaís (Argentina) y eliminamos las columnas de años que no tiene datos para simplificar el análisis
 ```
+
 ```{r}
-# Visualizo la nueva tabla
-empleo_genero
-```
-```{r}
+# Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "cantidad")
 ```
 ```{r}
