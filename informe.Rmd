@@ -1,5 +1,5 @@
 ---
-title: "La evolución del empleo en Argentina desde el punto de vista de género"
+title: "Informe estadístico sobre la brecha laboral en cuestiones de género en Argentina (1970-2018)"
 author: "Marianela Pi y Patricia Perrone"
 output: html_document
 ---
