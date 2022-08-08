@@ -1,5 +1,5 @@
 ---
-title: "Informe estadístico sobre la brecha laboral en cuestiones de género en Argentina (1970-2018)"
+title: "Informe estadístico sobre la brecha laboral en cuestiones de género en Argentina (1982-2018)"
 author: "Marianela Pi y Patricia Perrone"
 output: html_document
 ---
@@ -36,7 +36,8 @@ library(tidyr)
 ```{r}
 # Código para cargar o leer los datos
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
-# Filtramos por oaís (Argentina) y eliminamos las columnas de años que no tiene datos para simplificar el análisis
+
+# Filtramos por país (Argentina) y eliminamos las columnas de años que no tienen datos para simplificar el análisis
 ```
 
 ```{r}
@@ -50,6 +51,9 @@ print(empleo_Arg, n = 30)
 
 ```{r}
 # comparación del desempleo por género
+
+desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>% mutate(sexo = ifelse(variable==desempleo_mujeres,0,1)))
+ggplot(desempleo,aes(Anio,cantidad)) + geom_col(color = variable)
 
 ```
 
