@@ -52,8 +52,10 @@ print(empleo_Arg, n = 30)
 ```{r}
 # comparación del desempleo por género
 
-desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>% mutate(sexo = ifelse(variable==desempleo_mujeres,0,1)))
-ggplot(desempleo,aes(Anio,cantidad)) + geom_col(color = variable)
+desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
+            mutate(sexo = ifelse(variable == "desempleo_mujeres",0,1))
+
+ggplot(desempleo,aes(Anio,cantidad)) + geom_col()
 
 ```
 
