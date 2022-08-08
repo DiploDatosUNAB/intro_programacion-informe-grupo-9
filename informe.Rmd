@@ -52,7 +52,7 @@ empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_t
 desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_mujeres",0,1))
 
-ggplot(desempleo,aes(Anio,cantidad)) + geom_col() + labs(title = "Desempleo femenino y masculino por año")
+ggplot(desempleo,aes(Anio,cantidad, fill = variable)) + geom_col() + labs(title = "Desempleo femenino y masculino por año")
 
 ```
 
