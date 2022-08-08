@@ -44,18 +44,15 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "cantidad")
 ```
-```{r}
-print(empleo_Arg, n = 30)
-```
 
 
 ```{r}
-# comparación del desempleo por género
+# comparación del desempleo por género, filtro variable desempleo y agrego column con el sexo
 
 desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_mujeres",0,1))
 
-ggplot(desempleo,aes(Anio,cantidad)) + geom_col()
+ggplot(desempleo,aes(Anio,cantidad)) + geom_col() + labs(title = "Desempleo femenino y masculino por año")
 
 ```
 
@@ -70,7 +67,7 @@ ggplot(desempleo,aes(Anio,cantidad)) + geom_col()
 
 ## Hipótesis
 
-<p> Las cuestiones de género
+<p> Las cuestiones de género</p>
 
 ## Conclusiones
 
