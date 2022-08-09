@@ -1,6 +1,6 @@
 ---
 title: "Informe estadístico sobre la brecha laboral en cuestiones de género en Argentina (1982-2018)"
-author: "Marianela Pi y Patricia Perrone"
+author: "Patricia Perrone y Marianela Pi"
 output: html_document
 ---
 
@@ -54,6 +54,11 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
 
 ggplot(desempleo,aes(Anio,cantidad, fill = variable)) + geom_col() + labs(title = "Desempleo femenino y masculino por año")
 
+
+```
+```{r}
+
+ggplot(desempleo,aes(Anio,cantidad)) + geom_point(aes(color = variable)) + labs(title = "Desempleo femenino y masculino por año")
 ```
 
 
