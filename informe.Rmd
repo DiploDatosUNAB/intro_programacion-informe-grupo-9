@@ -39,25 +39,30 @@ library(stringr)
 # Filtramos por país (Argentina) y eliminamos las columnas de años que no tienen datos para simplificar el análisis
 
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
-```
 
-
-```{r}
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "cantidad")
-```
 
-
-```{r}
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
-
 desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre"))
 
+```
+
+```{r}
+# Cálculo de estadísticos
+mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(cantidad,na.rm = TRUE), desvio = sd(cantidad,na.rm = TRUE), max = max(cantidad,na.rm = TRUE), min = min(cantidad,na.rm = TRUE), rango = max-min)
+
+knitr::kable(mdesempleo)
+```
+
+
+```{r}
 ggplot(desempleo,aes(Anio,cantidad, fill = sexo)) + geom_col(na.rm = TRUE) + labs(title = "Desempleo femenino y masculino por año")
 
 ggplot(desempleo,aes(Anio,cantidad)) + geom_point(aes(color = sexo)) + labs(title = "Desempleo femenino y masculino por año")
 ```
+
 
 
 ```{r}
@@ -69,7 +74,12 @@ desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_m
 ggplot(desempleo_calificado,aes(Anio,cantidad, fill = sexo)) + geom_col(na.rm = TRUE) + labs(title = "Desempleo femenino y masculino, con educación terciaria, por año")
 ```
 
+```{r}
+# Cálculo de estadísticos desempleo calificado
+mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mean(cantidad,na.rm = TRUE), desvio = sd(cantidad,na.rm = TRUE), max = max(cantidad,na.rm = TRUE), min = min(cantidad,na.rm = TRUE), rango = max-min)
 
+knitr::kable(mdescal)
+```
 
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
