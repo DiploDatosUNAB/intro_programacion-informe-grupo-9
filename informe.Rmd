@@ -14,6 +14,7 @@ library(readxl)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(stringr)
 ```
 
 
@@ -40,6 +41,7 @@ library(tidyr)
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
 ```
 
+
 ```{r}
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "cantidad")
@@ -53,13 +55,11 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
             mutate(sexo = ifelse(variable == "desempleo_mujeres",0,1))
 
 ggplot(desempleo,aes(Anio,cantidad, fill = variable)) + geom_col() + labs(title = "Desempleo femenino y masculino por año")
-```
 
-
-
-```{r}
 ggplot(desempleo,aes(Anio,cantidad)) + geom_point(aes(color = variable)) + labs(title = "Desempleo femenino y masculino por año")
 ```
+
+
 ```{r}
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
 
@@ -70,12 +70,18 @@ ggplot(desempleo_calificado,aes(Anio,cantidad, fill = variable)) + geom_col() + 
 ```
 
 
-
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
 
 tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","empleo_agricultura_hombres","empleo_industria_mujeres","empleo_industria_hombres","empleo_servicios_mujeres","empleo_servicios_hombres","empleo_informal_mujeres","empleo_informal_hombres","autoempleo_mujeres","autoempleo_hombres")) %>%
-            mutate()
+            mutate(sexo = ifelse(str_detect(variable,"mujeres"),0,1), 
+                  tipo = substring(variable,8,str_length(variable)-8)
+```
+
+```{r}
+var <- c("empleo_agricultura_mujeres","empleo_industria_mujeres")
+Tip <- substring(var,8,str_length(var)-8)
+
 ```
 
 
