@@ -55,6 +55,7 @@ mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(cantid
 
 knitr::kable(mdesempleo)
 ```
+<p>La tasa de desocupación tiene un comportamiento inverso, por lo cual se registra una tasa del 12.22% para las mujeres y de 9,91% para los varones. -Si se considera la distribución de ingresos, se observa una situación desfavorable de las mujeres respecto de los varones.. </p>
 
 
 ```{r}
@@ -81,6 +82,7 @@ mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mea
 knitr::kable(mdescal)
 ```
 
+<p>La población de mujeres con nivel terciario desempleadas ha alcanzado el 5.91%, mientras que los varones alcanzaron el 4.10%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se evidencia una situación de desventaja para ellas.<p>
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
 
@@ -93,12 +95,28 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 # Grafico por tipo de actividad
 ggplot(tipo_empleo,aes(tipo,cantidad, fill = sexo)) + geom_col(na.rm = TRUE)
 ```
-
+<p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones como podemos observar el grafico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
 
 
 ## Hipótesis
 
-<p> Las cuestiones de género</p>
+<p> La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo, con importantes efectos en la vida y la salud de las mujeres trabajadoras, así como sobre sus posibilidades de desarrollo laboral y económico. En este informe mostramos algunos datos que reflejan las distintas desigualdades de género y que, de diversas maneras, dificultan el desarrollo laboral y económico de las mujeres.. Se muestra cómo la participación en el mercado de trabajo es menor en el caso de las mujeres respecto a los varones y que un importante porcentaje se encuentra desempleada o en trabajos informales. Se identifica en el país una importante segregación, tanto horizontal como vertical, siendo evidente la feminización de algunos sectores productivos y las inequidades a la hora de alcanzar los niveles jerárquicos superiores. </p>
+<p>Si bien hay factores propios del mercado laboral que permiten explicar esa brecha en las
+remuneraciones, una parte importante de la misma permanece aún en el lado oscuro del
+conocimiento y puede tener que ver con factores tales como idiosincrasia, pautas culturales o
+discriminación u otros factores que no pueden ser captados con los instrumentos de medición
+disponibles.<p>
+<p>Entre los factores que explican los relativamente bajos ingresos de las mujeres (en relación con el
+de los hombres) se encuentran, por un lado, los más estrechamente relacionados con sus historias
+laborales, tales como la experiencia acumulada en el mercado de trabajo y la continuidad de su
+participación en dicho mercado; y, por otro, los ligados a los empleos propiamente femeninos. Ellas
+por lo general se insertan en el segmento flexible (o no formal) del mercado de trabajo, el que
+incluye autoempleo, empleo a tiempo parcial, empleo informal, ocupaciones en firmas pequeñas y
+en ramas de actividad ligadas a las actividades de tipo reproductiva: salud, educación, cuidado,
+servicio doméstico. El segmento flexible les permite trabajar sin descuidar las responsabilidades al
+interior del hogar, que, como se dijo, recaen en ellas de manera desproporcionada. Existen claras
+evidencias de este hecho: en la Argentina, una de cada dos mujeres trabaja a tiempo parcial, contra
+uno de cada tres hombres.<p>
 
 ## Conclusiones
 
