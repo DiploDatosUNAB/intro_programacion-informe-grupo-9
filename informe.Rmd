@@ -41,17 +41,22 @@ library(stringr)
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
 
 # Transposición de los datos de la tabla
-empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "cantidad")
+empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") %>% 
+              empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
+
+# reemplazo los valores de los años por el número correspondiente
+# empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
+
 
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
 desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
-            mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre"))
+            mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre")) 
 
 ```
 
 ```{r}
 # Cálculo de estadísticos
-mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(cantidad,na.rm = TRUE), desvio = sd(cantidad,na.rm = TRUE), max = max(cantidad,na.rm = TRUE), min = min(cantidad,na.rm = TRUE), rango = max-min)
+mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 
 knitr::kable(mdesempleo)
 ```
@@ -59,9 +64,9 @@ knitr::kable(mdesempleo)
 
 
 ```{r}
-ggplot(desempleo,aes(Anio,cantidad, fill = sexo)) + geom_col(na.rm = TRUE) + labs(title = "Desempleo femenino y masculino por año")
+ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Desempleo femenino y masculino por año")
 
-ggplot(desempleo,aes(Anio,cantidad)) + geom_point(aes(color = sexo)) + labs(title = "Desempleo femenino y masculino por año")
+# ggplot(desempleo,aes(Anio,porcentaje)) + geom_point(aes(color = sexo)) + labs(title = "Desempleo femenino y masculino por año")
 ```
 
 
@@ -72,12 +77,18 @@ ggplot(desempleo,aes(Anio,cantidad)) + geom_point(aes(color = sexo)) + labs(titl
 desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_mujeres","desempleo_educacion_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_educacion_mujeres","Mujer","Hombre"))
 
-ggplot(desempleo_calificado,aes(Anio,cantidad, fill = sexo)) + geom_col(na.rm = TRUE) + labs(title = "Desempleo femenino y masculino, con educación terciaria, por año")
+ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Desempleo femenino y masculino, con educación terciaria, por año")
 ```
+
+
+```{r}
+ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge())
+```
+
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
-mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mean(cantidad,na.rm = TRUE), desvio = sd(cantidad,na.rm = TRUE), max = max(cantidad,na.rm = TRUE), min = min(cantidad,na.rm = TRUE), rango = max-min)
+mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 
 knitr::kable(mdescal)
 ```
@@ -93,7 +104,7 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 
 ```{r}
 # Grafico por tipo de actividad
-ggplot(tipo_empleo,aes(tipo,cantidad, fill = sexo)) + geom_col(na.rm = TRUE)
+ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_col(na.rm = TRUE)
 ```
 <p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones como podemos observar el grafico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
 
