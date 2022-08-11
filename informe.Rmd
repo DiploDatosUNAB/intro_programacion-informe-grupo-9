@@ -41,11 +41,10 @@ library(stringr)
 empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
 
 # Transposición de los datos de la tabla
-empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") %>% 
-              empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
+empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
 
 # reemplazo los valores de los años por el número correspondiente
-# empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
+empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 
 
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
