@@ -4,7 +4,6 @@ author: "Patricia Perrone y Marianela Pi"
 output: html_document
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Cargar los paquetes necesarios acá
@@ -16,7 +15,6 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 ```
-
 
 ## Introducción
 
@@ -51,26 +49,34 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
 
 # Cálculo de estadísticos
 mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
+```
 
+<p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores de desocupación entre hombre y mujeres</p>
+
+```{r}
 knitr::kable(mdesempleo)
 ```
-<p>La tasa de desocupación tiene un comportamiento inverso, por lo cual se registra una tasa del 12.22% para las mujeres y de 9,91% para los varones. -Si se considera la distribución de ingresos, se observa una situación desfavorable de las mujeres respecto de los varones.. </p>
+
+<p>La tasa de desocupación registra una tasa del 12.22% para las mujeres y de 9,91% para los varones. -Si se considera la distribución de ingresos, se observa una situación desfavorable de las mujeres respecto de los varones.. </p>
+
 ```{r}
 ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Desempleo femenino y masculino por año")
 
 # ggplot(desempleo,aes(Anio,porcentaje)) + geom_point(aes(color = sexo)) + labs(title = "Desempleo femenino y masculino por año")
 
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
-
 desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_mujeres","desempleo_educacion_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_educacion_mujeres","Mujer","Hombre"))
 
 # Retiro los años sin datos para acrotar el gráfico
 desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
+```
 
+<p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo</p>
+<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias sigue ahí</p>
+
+```{r}
 ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Desempleo femenino y masculino, con educación terciaria, por año")
-
-ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge())
 ```
 
 
