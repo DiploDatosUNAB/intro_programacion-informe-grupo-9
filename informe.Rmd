@@ -88,16 +88,24 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
                mutate(sexo = ifelse(str_detect(variable,"mujeres"),"Mujer","Hombre")) %>%  
                mutate(tipo = substring(variable,8,str_length(variable)-8))
   
-
 # Corrijo el "autoempleo"
+tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
 
-```
-
-```{r}
 # Grafico por tipo de actividad
 ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
 ```
 <p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones como podemos observar el grafico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
+
+```{r}
+empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remunerado_mujeres","trabajo_domestico_no_remunerado_hombres")) %>%
+                    mutate(sexo = ifelse(variable == "trabajo_domestico_no_remunerado_mujeres","Mujer","Hombre"))
+
+# Retiro los años sin datos para acrotar el gráfico
+empleo_domestico <- filter(empleo_domestico, Anio > "2003")
+
+ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
+```
+
 
 
 ## Hipótesis
