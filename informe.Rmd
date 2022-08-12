@@ -46,6 +46,32 @@ empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 str(empleo_Arg)
 ```
 
+<p>Detalle de las variables incluidas en `variable`:</p>
+
+|Variable       |Descripción |
+|:--------------|:-----------|
+| empleadoras_mujeres | Dentro de la fuerza laboral femenina, porcentaje de mujeres que tienen el rol de empleadoras. Se considera como "empleador" a personas cuya remuneración depende directamente de las ganancias derivadas de los bienes y servicios que produce y que tiene una o más personas empleadas. |
+| empleadores_hombres | Dentro de la fuerza laboral femenina, porcentaje de  hombres que tienen el rol de empleadores. Se considera como "empleador" a personas cuya remuneración depende directamente de las ganancias derivadas de los bienes y servicios que produce y que tiene una o más personas empleadas. |
+| empleo_agricultura_mujeres | Dentro de la fuerza laboral femenina, porcentaje que trabaja en agricultura |
+| empleo_agricultura_hombres | Dentro de la fuerza laboral masculina, porcentaje que trabaja en agricultura |
+| empleo_industria_mujeres | Dentro de la fuerza laboral femenina, porcentaje que trabaja en industria |
+| empleo_industria_hombres | Dentro de la fuerza laboral masculina, porcentaje que trabaja en industria |
+| empleo_servicios_mujeres | Dentro de la fuerza laboral femenina, porcentaje que trabaja en servicios |
+| empleo_servicios_hombres | Dentro de la fuerza laboral masculina, porcentaje que trabaja en servicios |
+| empleo_informal_mujeres | Porcentaje de mujeres en empleos informales (no vinculados a la agricultura)
+| empleo_informal_hombres | Porcentaje de hombres en empleos informales (no vinculados a la agricultura)
+| legislacion_acoso_sexual | Existencia de legislación laboral contra acoso sexual laboral (`1` = `sí`, `0` = `no`)
+| autoempleo_mujeres | Mujeres trabajadoras por cuenta propia. Porcentaje dentro del total de la fuerza laboral femenina. 
+| autoempleo_hombres | Hombres trabajadores por cuenta propia. Porcentaje dentro del total de la fuerza laboral masculina. 
+| empleo_parcial_mujeres | Mujeres con trabajo a tiempo parcial. Porcentaje respecto del total de personas con trabajo a tiempo parcial. |
+| dese  mpleo_educacion_mujeres | Mujeres desempleadas con estudios terciarios. Porcentaje respecto del total de la fuerza laboral femenina con estudios terciarios. | 
+| desempleo_educacion_hombres | Hombres desempleados con estudios terciarios. Porcentaje respecto del total de la fuerza laboral masculina con estudios terciarios. 
+| desempleo_mujeres | Mujeres desempleadas. Porcentaje respecto del total de la fuerza laboral femenina. |
+| desempleo_hombres | Hombres desempleados. Porcentaje respecto del total de la fuerza laboral masculina. |
+| trabajo_domestico_no_remunerado_mujeres | Porcentaje del día utilizado por mujeres en trabajo no remunerado doméstico y de cuidado. |
+| trabajo_domestico_no_remunerado_hombres | Porcentaje del día utilizado por hombres en trabajo no remunerado doméstico y de cuidado. |
+| | |
+
 <p>Seguiremos transformando los datos para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.</p>
 
 ### Desempleo
@@ -66,7 +92,7 @@ mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcen
 str(desempleo)
 ```
 
-<p>Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg,Creamos
+<p>Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
 
 -   <h4>Valores estadísticos</h4>
 
@@ -76,15 +102,13 @@ knitr::kable(mdesempleo)
 
 <p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.</p>
 
-
 ```{r}
 ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
-<p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo</p>
-<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.</p>
+<p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.</p>
 
-<h3>Desempleo calificado</h3>
+### Desempleo calificado
 
 ```{r}
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
@@ -95,8 +119,9 @@ desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_m
 desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 ```
 
-<h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
+<p>Esta tabla contiene 36 casos y la información sobre los desempleados hombres y mujeres con educación terciaria, por año.</p>
 
+<h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -111,17 +136,16 @@ str(desempleo_calificado)
 knitr::kable(mdescal)
 ```
 
-
+<p>La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.<p>
 
 ```{r}
 ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
 ```
 
+### Tipos de actividad
 
-<p>La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas supera el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se evidencia una situación de desventaja para ellas.<p>
+<p>Esta tabla contiene información sobre el tipo de actividad realizada en el empleo. También está por género y año. Una observación a tener en cuenta es que, si bien se releva el empleo parcial para las mujeres, no se relevó para los hombres. Debido a que esta variable no puede ser comparada, la dejaremos para más adelante y no forma parte de este conjunto de datos</p>
 
-
-<h3>Tipos de actividad</h3>
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
 
@@ -132,6 +156,13 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 # Corrijo el "autoempleo"
 tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
 ```
+
+<h4>Descripción y cantidad de observaciones en tipo de empleo</h4>
+
+```{r}
+str(tipo_empleo)
+```
+
 <h4>Valores estadísticos de tipo de actividad</h4>
 
 ```{r}
@@ -140,21 +171,14 @@ mtempleo <- tipo_empleo %>% group_by(variable) %>% summarise(media = mean(porcen
 
 knitr::kable(mtempleo)
 ```
-<h4>Cantidad de observaciones en tipo de empleo</h4>
-```{r}
-str(tipo_empleo)
-```
-
 
 ```{r}
-
-
 # Grafico por tipo de actividad
-ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
+ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
 ```
 <p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
 
-<h3>Empleo domestico</h3>
+### Empleo domestico
 
 ```{r}
 empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remunerado_mujeres","trabajo_domestico_no_remunerado_hombres")) %>%
@@ -162,6 +186,14 @@ empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remu
 
 # Retiro los años sin datos para acrotar el gráfico
 empleo_domestico <- filter(empleo_domestico, Anio > "2003")
+```
+
+<h4>Cantidad de observaciones en tipo de empleo</h4>
+
+<p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
+
+```{r}
+str(empleo_domestico)
 ```
 
 <h4>Valores estadísticos de tipo de actividad</h4>
@@ -172,17 +204,9 @@ medomestico <- empleo_domestico %>% group_by(variable) %>% summarise(media = mea
 knitr::kable(medomestico)
 ```
 
-<h4>Cantidad de observaciones en tipo de empleo</h4>
 
 ```{r}
-str(empleo_domestico)
-```
-
-
-```{r}
-
-
-ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
+ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado po año y género")
 ```
 <p>Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actuamente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra 19.21 para las mujeres y 7.31 para los hombres. </p>
 
