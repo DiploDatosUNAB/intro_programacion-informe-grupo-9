@@ -36,6 +36,8 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
 
+# reemplazo los valores de los años por el número correspondiente
+empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 ```
 
 <p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: Variable, Anio y porcentaje</p>
@@ -44,12 +46,12 @@ empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_t
 str(empleo_Arg)
 ```
 
-<p>Los iremos transformando para ajustarlos al alcance de nuestra hipótesis</p>
+<p>Los iremos transformando para ajustarlos al alcance de nuestro análisis</p>
+
+## Desempleo
+
 
 ```{r}
-# reemplazo los valores de los años por el número correspondiente
-empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
-
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
 desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres")) %>%
             mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre")) 
