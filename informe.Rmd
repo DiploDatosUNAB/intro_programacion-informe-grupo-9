@@ -40,13 +40,13 @@ empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_t
 empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 ```
 
-<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: Variable, Anio y porcentaje</p>
+<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.</p>
  
 ```{r}
 str(empleo_Arg)
 ```
 
-<p>Los iremos transformando para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.</p>
+<p>Seguiremos transformando los datos para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.</p>
 
 ### Desempleo
 
@@ -66,17 +66,14 @@ mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcen
 str(desempleo)
 ```
 
+<p>Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg,Creamos
+
 -   <h4>Valores estadísticos</h4>
 
 ```{r}
-
 knitr::kable(mdesempleo)
-
 ```
 
-```{r}
-
-```
 <p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.</p>
 
 
@@ -105,20 +102,18 @@ desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 # Cálculo de estadísticos desempleo calificado
 mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 
-knitr::kable(mdescal)
+str(desempleo_calificado)
 ```
 
 <h4>Valores estadísticos</h4>
 
 ```{r}
-str(desempleo_calificado)
+knitr::kable(mdescal)
 ```
 
 
 
 ```{r}
-
-
 ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
 ```
 
