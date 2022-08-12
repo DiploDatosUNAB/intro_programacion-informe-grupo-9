@@ -46,7 +46,7 @@ empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 str(empleo_Arg)
 ```
 
-<p>Los iremos transformando para ajustarlos al alcance de nuestro análisis</p>
+<p>Los iremos transformando para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.</p>
 
 ### Desempleo
 
@@ -60,22 +60,24 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
 mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 ```
 
+-   <h4>Descripción y cantidad de observaciones</h4>
+
+```{r}
+str(desempleo)
+```
+
 -   <h4>Valores estadísticos</h4>
+
 ```{r}
 
 knitr::kable(mdesempleo)
 
 ```
--   <h4>Cantidad de observaciones</h4>
-```{r}
-str(desempleo)
-```
-
 
 ```{r}
 
 ```
-<p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles</p>
+<p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.</p>
 
 
 ```{r}
@@ -83,7 +85,7 @@ ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity"
 ```
 
 <p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo</p>
-<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias sigue ahí</p>
+<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.</p>
 
 <h3>Desempleo calificado</h3>
 
@@ -96,14 +98,17 @@ desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_m
 desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 ```
 
-<h4>Valores estadísticos</h4>
+<h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
+
+
 ```{r}
 # Cálculo de estadísticos desempleo calificado
 mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 
 knitr::kable(mdescal)
 ```
-<h4>Cantidad de observaciones en desempleo calificado</h4>
+
+<h4>Valores estadísticos</h4>
 
 ```{r}
 str(desempleo_calificado)
@@ -118,7 +123,7 @@ ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + ge
 ```
 
 
-<p>La población de mujeres con nivel terciario desempleadas ha alcanzado el 5.91%, mientras que los varones alcanzaron el 4.10%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se evidencia una situación de desventaja para ellas.<p>
+<p>La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas supera el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se evidencia una situación de desventaja para ellas.<p>
 
 
 <h3>Tipos de actividad</h3>
