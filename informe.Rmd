@@ -36,6 +36,17 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
 
+```
+
+<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: Variable, Anio y porcentaje</p>
+ 
+```{r}
+str(empleo_Arg)
+```
+
+<p>Los iremos transformando para ajustarlos al alcance de nuestra hipótesis</p>
+
+```{r}
 # reemplazo los valores de los años por el número correspondiente
 empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
 
@@ -46,17 +57,7 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
 # Cálculo de estadísticos
 mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
 
-```
 
-<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: Variable, Anio y porcentaje</p>
- 
-```{r}
-desempleo_sd <- desempleo %>% glimpse()
-```
-
-<p>Los iremos transformando para ajustarlos al alcance de nuestra hipótesis</p>
-
-```{r}
 
 ```
 
