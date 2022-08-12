@@ -18,13 +18,9 @@ library(stringr)
 
 ## Introducción
 
-<p>El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas, y el acoso sexual. Para ello se presenta una serie de indicadores, cuadros y gráficos, que intentan responder distintos tipos de preguntas. </p>
+<p>El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas y el acoso sexual. Para ello se presenta una serie de indicadores, cuadros y gráficos, que intentan responder distintos tipos de preguntas. </p>
 
-<p>Entre ellas se encuentran las siguientes:<b>¿cómo son los índices de desempleo de acuerdo al género de las personas?, ¿hay diferencia entre varones y mujeres cuando hablamos de trabajo informal?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los varones y de las mujeres?, ¿los varones cobran más por cada hora trabajada?, ¿trabajan las mujeres menos horas que los varones?, ¿qué pasa si consideramos trabajo no sólo a lo que se remunera sino también al trabajo doméstico?</b>.</p>
-
-<p>En el primer apartado, se realiza un análisis sobre la diversidad en la dedicación al trabajo remunerado y trabajo doméstico en el caso de las mujeres, dado que este elemento constituye, según la bibliografía especializada (Esquivel, 2009; D’alessandro, 2016), el punto de partida de la desigualdad en el mercado de trabajo. En el segundo, se analiza la evolución de la ocupación de puestos jerárquicos y la tasa de desempleo. En el tercero, se examina la informalidad laboral. En el ultimo apartado, se analiza los datos de acoso sexual.</p>
-
-<p>Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provintos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.</p>
+<p>Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.</p>
 
 <p>Para ajustar los datos al alcance de este análisis, se utilizarán sólo los datos de Argentina comprendidos entre los años 1982 y 2018, que es el período en donde Argentina relevó datos. Fuera de ese período no hay información disponible.</p>
 
@@ -49,6 +45,19 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
 
 # Cálculo de estadísticos
 mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
+
+```
+
+<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: Variable, Anio y porcentaje</p>
+ 
+```{r}
+desempleo_sd <- desempleo %>% glimpse()
+```
+
+<p>Los iremos transformando para ajustarlos al alcance de nuestra hipótesis</p>
+
+```{r}
+
 ```
 
 <p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores de desocupación entre hombre y mujeres</p>
@@ -64,7 +73,7 @@ ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity"
 ```
 
 <p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo</p>
-<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí</p>
+<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí, como puede verse en el Ggráfico 2.</p>
 
 ```{r}
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
@@ -77,6 +86,7 @@ desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
 ```
 
+<p> Aquí tal vez las diferencias se acortan un poco si miramos los datos estadísticos correspondientes al gráfico anterior.</p>
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -84,7 +94,9 @@ mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mea
 
 knitr::kable(mdescal)
 ```
-<p>La población de mujeres con nivel terciario desempleadas ha alcanzado el 5.91%, mientras que los varones alcanzaron el 4.10%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se evidencia una situación de desventaja para ellas.<p>
+
+<p>La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas supera el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras se sigue evidenciando una situación de desventaja para ellas.<p>
+
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
 
@@ -94,10 +106,22 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
   
 # Corrijo el "autoempleo"
 tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
+```
 
+<p>Otra de las cosas que podemos comparar es el tipo de empleo respecto del sexo.</p>
+
+```{r}
 # Grafico por tipo de actividad
 ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
 ```
+
+
+
+```{r}
+# Tablas con la distribuición del empleo femenino
+empleo_femenino <- filter(empleo_Arg, str_detect(variable,".mujer.") && str_detect(variable,".desempleo.")) 
+```
+
 <p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones como podemos observar el grafico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
 
 ```{r}
@@ -109,6 +133,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 
 ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge())
 ```
+
 
 
 
