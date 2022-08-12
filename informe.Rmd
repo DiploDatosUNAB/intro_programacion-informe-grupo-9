@@ -64,7 +64,7 @@ ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity"
 ```
 
 <p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo</p>
-<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias sigue ahí</p>
+<p>Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí</p>
 
 ```{r}
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
