@@ -121,7 +121,7 @@ desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 
 <p>Esta tabla contiene 36 casos y la información sobre los desempleados hombres y mujeres con educación terciaria, por año.</p>
 
-<h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
+-   <h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -130,7 +130,7 @@ mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mea
 str(desempleo_calificado)
 ```
 
-<h4>Valores estadísticos</h4>
+-   <h4>Valores estadísticos</h4>
 
 ```{r}
 knitr::kable(mdescal)
@@ -157,13 +157,13 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
 ```
 
-<h4>Descripción y cantidad de observaciones en tipo de empleo</h4>
+-   <h4>Descripción y cantidad de observaciones en tipo de empleo</h4>
 
 ```{r}
 str(tipo_empleo)
 ```
 
-<h4>Valores estadísticos de tipo de actividad</h4>
+-   <h4>Valores estadísticos de tipo de actividad</h4>
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -188,7 +188,7 @@ empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remu
 empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 ```
 
-<h4>Cantidad de observaciones en tipo de empleo</h4>
+-   <h4>Cantidad de observaciones en tipo de empleo</h4>
 
 <p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
 
@@ -196,7 +196,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 str(empleo_domestico)
 ```
 
-<h4>Valores estadísticos de tipo de actividad</h4>
+-   <h4>Valores estadísticos de tipo de actividad</h4>
 
 ```{r}
 medomestico <- empleo_domestico %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
@@ -206,7 +206,7 @@ knitr::kable(medomestico)
 
 
 ```{r}
-ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado po año y género")
+ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 ```
 <p>Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actuamente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra 19.21 para las mujeres y 7.31 para los hombres. </p>
 
