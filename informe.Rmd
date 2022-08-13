@@ -37,7 +37,10 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
 
 # reemplazo los valores de los años por el número correspondiente
-empleo_Arg$Anio <- str_replace(empleo_Arg$Anio, "X", "")
+empleo_Arg$Anio <- str_replace(empleo_Arg$Anio,"X","")
+
+# Convierto Anio a numérico
+empleo_Arg %>% mutate(Anio = as.numeric(Anio))
 ```
 
 <p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.</p>
@@ -144,7 +147,7 @@ ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + ge
 
 ### Tipos de actividad
 
-<p>Esta tabla contiene información sobre el tipo de actividad realizada en el empleo. También está por género y año. Una observación a tener en cuenta es que, si bien se releva el empleo parcial para las mujeres, no se relevó para los hombres. Debido a que esta variable no puede ser comparada, la dejaremos para más adelante y no forma parte de este conjunto de datos</p>
+<p>Esta tabla contiene información sobre el tipo de actividad realizada en el empleo. También está por género y año. Una observación a tener en cuenta es que, si bien se releva el empleo parcial para las mujeres, no se relevó para los hombres. Debido a que esta variable no puede ser comparada, la dejaremos para más adelante y no forma parte de este conjunto de datos.</p>
 
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
@@ -208,10 +211,18 @@ knitr::kable(medomestico)
 ```{r}
 ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 ```
-<p>Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actuamente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra 19.21 para las mujeres y 7.31 para los hombres. </p>
+<p>Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. </p>
 
 
 ## Hipótesis
 
-<p> La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo. Algunas de las preguntas que nos hacemos son las siguientes:<b>¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel academico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domesticos le resta tiempo para realizar trabajo remunerado a las mujeres?, ¿Esta asociado el trabajo domestico con el trabajo informal? ¿Las mujeres pueden desarrolarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?</b>.</p>
+<p> La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los paises del mundo. Algunas de las preguntas que nos hacemos son las siguientes:<b>¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrolarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?</b>.</p>
+
+
+
+
+
+
+
+
 
