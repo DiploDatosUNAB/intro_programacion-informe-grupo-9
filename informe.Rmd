@@ -181,17 +181,17 @@ ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identit
 ```
 <p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
 
-### Empleo domestico
+### Empleo doméstico
 
 ```{r}
 empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remunerado_mujeres","trabajo_domestico_no_remunerado_hombres")) %>%
                     mutate(sexo = ifelse(variable == "trabajo_domestico_no_remunerado_mujeres","Mujer","Hombre"))
 
-# Retiro los años sin datos para acrotar el gráfico
+# Retiro los años sin datos para acortar el gráfico
 empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 ```
 
--   <h4>Cantidad de observaciones en empleo domestico</h4>
+-   <h4>Cantidad de observaciones en empleo doméstico</h4>
 
 <p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
 
@@ -199,7 +199,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 str(empleo_domestico)
 ```
 
--   <h4>Valores estadísticos en empleo domestico</h4>
+-   <h4>Valores estadísticos en empleo doméstico</h4>
 
 ```{r}
 medomestico <- empleo_domestico %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
