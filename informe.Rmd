@@ -157,7 +157,7 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
 ```
 
--   <h4>Descripción y cantidad de observaciones en tipo de empleo</h4>
+-   <h4>Descripción y cantidad de observaciones en tipo de actividad</h4>
 
 ```{r}
 str(tipo_empleo)
@@ -188,7 +188,7 @@ empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remu
 empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 ```
 
--   <h4>Cantidad de observaciones en tipo de empleo</h4>
+-   <h4>Cantidad de observaciones en empleo domestico</h4>
 
 <p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
 
@@ -196,7 +196,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 str(empleo_domestico)
 ```
 
--   <h4>Valores estadísticos de tipo de actividad</h4>
+-   <h4>Valores estadísticos en empleo domestico</h4>
 
 ```{r}
 medomestico <- empleo_domestico %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
