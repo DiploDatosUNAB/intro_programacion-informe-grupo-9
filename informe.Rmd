@@ -19,11 +19,11 @@ library(stringr)
 
 ## Introducción
 
-<p>El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas y el acoso sexual. Para ello se presenta una serie de indicadores, cuadros y gráficos, que intentan responder distintos tipos de preguntas. </p>
+El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas y el acoso sexual. Para ello se presenta una serie de indicadores, cuadros y gráficos, que intentan responder distintos tipos de preguntas. 
 
-<p>Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.</p>
+Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.
 
-<p>Para ajustar los datos al alcance de este análisis, se utilizarán sólo los datos de Argentina comprendidos entre los años 1982 y 2018, que es el período en donde Argentina relevó datos. Fuera de ese período no hay información disponible.</p>
+Para ajustar los datos al alcance de este análisis, se utilizarán sólo los datos de Argentina comprendidos entre los años 1982 y 2018, que es el período en donde Argentina relevó datos. Fuera de ese período no hay información disponible.
 
 
 ## Exploración de los datos
@@ -39,7 +39,7 @@ empleo_genero <- read.csv("datos/empleo_genero.csv")  |>
 empleo_genero <- empleo_genero[,-which(colMeans(is.na(empleo_genero)) == 1)]
 
 # Transposición de los datos de la tabla
-empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
+empleo_Arg <- pivot_longer(empleo_genero, cols=2:36, names_to = "Anio", values_to = "porcentaje") 
 
 # reemplazo los valores de los años por el número correspondiente
 # Convierto Anio a numérico
@@ -49,13 +49,10 @@ empleo_Arg <- empleo_Arg |>
          Anio = as.numeric(Anio))
 ```
 
-<p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.</p>
+La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.
  
-```{r}
-str(empleo_Arg)
-```
 
-<p>Detalle de las variables incluidas en `variable`:</p>
+Detalle de las variables incluidas en `variable`:
 
 |Variable       |Descripción |
 |:--------------|:-----------|
@@ -81,7 +78,7 @@ str(empleo_Arg)
 | trabajo_domestico_no_remunerado_hombres | Porcentaje del día utilizado por hombres en trabajo no remunerado doméstico y de cuidado. |
 | | |
 
-<p>Seguiremos transformando los datos para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.</p>
+Seguiremos transformando los datos para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.
 
 ### Desempleo
 
@@ -92,7 +89,7 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
             mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre")) 
 
 # Cálculo de estadísticos
-mdesempleo <- desempleo %>% group_by(variable) %>% 
+mdesempleo <- desempleo  |>  group_by(variable)  |>  
   summarise(media = mean(porcentaje,na.rm = TRUE), 
             desvio = sd(porcentaje,na.rm = TRUE), 
             max = max(porcentaje,na.rm = TRUE), 
@@ -106,7 +103,7 @@ mdesempleo <- desempleo %>% group_by(variable) %>%
 str(desempleo)
 ```
 
-<p>Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
+Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
 
 #### Valores estadísticos
 
@@ -114,13 +111,18 @@ str(desempleo)
 knitr::kable(mdesempleo)
 ```
 
-<p>El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.</p>
+El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+```
+```{r}
+ggplot(desempleo,aes(Anio,porcentaje)) + 
+  geom_line(aes(color = sexo)) +
+  labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
-<p>A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.</p>
+A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.
 
 ### Desempleo calificado
 
@@ -133,7 +135,7 @@ desempleo_calificado <- filter(empleo_Arg,variable %in% c("desempleo_educacion_m
 desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 ```
 
-<p>Esta tabla contiene 36 casos y la información sobre los desempleados hombres y mujeres con educación terciaria, por año.</p>
+Esta tabla contiene 36 casos y la información sobre los desempleados hombres y mujeres con educación terciaria, por año.
 
 #### Descripción y cantidad de observaciones en desempleo calificado
 
@@ -150,7 +152,7 @@ str(desempleo_calificado)
 knitr::kable(mdescal)
 ```
 
-<p>La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.<p>
+La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
 ```{r}
 ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
@@ -158,7 +160,7 @@ ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + ge
 
 ### Tipos de actividad
 
-<p>Esta tabla contiene información sobre el tipo de actividad realizada en el empleo. También está por género y año. Una observación a tener en cuenta es que, si bien se releva el empleo parcial para las mujeres, no se relevó para los hombres. Debido a que esta variable no puede ser comparada, la dejaremos para más adelante y no forma parte de este conjunto de datos.</p>
+Esta tabla contiene información sobre el tipo de actividad realizada en el empleo. También está por género y año. Una observación a tener en cuenta es que, si bien se releva el empleo parcial para las mujeres, no se relevó para los hombres. Debido a que esta variable no puede ser comparada, la dejaremos para más adelante y no forma parte de este conjunto de datos.
 
 ```{r}
 # Armo una tabla por tipo de empleo y agrego la columna sexo igual que en desempleo 
@@ -190,7 +192,7 @@ knitr::kable(mtempleo)
 # Grafico por tipo de actividad
 ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
 ```
-<p>La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.<p>
+La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
 
 ### Empleo doméstico
 
@@ -204,7 +206,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 
 #### Cantidad de observaciones en empleo doméstico
 
-<p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
+Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.
 
 ```{r}
 str(empleo_domestico)
@@ -222,12 +224,12 @@ knitr::kable(medomestico)
 ```{r}
 ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 ```
-<p>Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. </p>
+Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
 
 
 ## Hipótesis
 
-<p> La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los paises del mundo. Algunas de las preguntas que nos hacemos son las siguientes:<b>¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrolarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?</b>.</p>
+ La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los paises del mundo. Algunas de las preguntas que nos hacemos son las siguientes:<b>¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrolarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?</b>.
 
 
 
