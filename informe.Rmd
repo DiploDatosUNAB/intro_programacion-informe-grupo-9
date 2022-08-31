@@ -237,9 +237,46 @@ ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) +
 Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
 
 
+```{r}
+empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) |> 
+  mutate(sexo = ifelse(variable == "empleadoras_mujeres","Mujer","Hombre")) 
+
+
+```
+
+
+
+```{r}
+ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
+  geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  labs(title = "Gráfico XXXXXX - Empleadores por género y año")
+```
+
+
+```{r}
+Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |> 
+  group_by(sexo)
+```
+
+```{r}
+ggplot(Jefes_vs_desempleocal, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
+  geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
+```
+
+
+
+
+
+
+
+
+
 ## Hipótesis
 
- La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo. Algunas de las preguntas que nos hacemos son las siguientes:*¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**.
+ La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo. Algunas de las preguntas que nos hacemos son las siguientes:**¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**.
 
 
 
