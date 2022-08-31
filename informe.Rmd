@@ -32,7 +32,11 @@ library(stringr)
 # Código para cargar o leer los datos
 # Filtramos por país (Argentina) y eliminamos las columnas de años que no tienen datos para simplificar el análisis
 
-empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Argentina") %>% select(1,16:52)
+empleo_genero <- read.csv("datos/empleo_genero.csv")  |>  
+  filter(pais_region=="Argentina")  |>  
+  select(-pais_region, -codigo_pais_region) 
+
+empleo_genero <- empleo_genero[,-which(colMeans(is.na(empleo_genero)) == 1)]
 
 # Transposición de los datos de la tabla
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
