@@ -38,10 +38,11 @@ empleo_genero <- read.csv("datos/empleo_genero.csv") %>% filter(pais_region=="Ar
 empleo_Arg <- pivot_longer(empleo_genero, cols=2:38, names_to = "Anio", values_to = "porcentaje") 
 
 # reemplazo los valores de los años por el número correspondiente
-empleo_Arg$Anio <- str_replace(empleo_Arg$Anio,"X","")
-
 # Convierto Anio a numérico
-empleo_Arg %>% mutate(Anio = as.numeric(Anio))
+
+empleo_Arg <- empleo_Arg |> 
+  mutate(Anio = str_replace(Anio,"X",""),
+         Anio = as.numeric(Anio))
 ```
 
 <p>La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.</p>
