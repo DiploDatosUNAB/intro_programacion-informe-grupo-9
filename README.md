@@ -1,3 +1,8 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 # Trabajo práctico 1
 
 En esta primera entrega van a familiarizarse con los datos que eligieron y plantear algunas preguntas para responder en una segunda entrega.
