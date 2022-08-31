@@ -92,10 +92,15 @@ desempleo <- filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_ho
             mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre")) 
 
 # Cálculo de estadísticos
-mdesempleo <- desempleo %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
+mdesempleo <- desempleo %>% group_by(variable) %>% 
+  summarise(media = mean(porcentaje,na.rm = TRUE), 
+            desvio = sd(porcentaje,na.rm = TRUE), 
+            max = max(porcentaje,na.rm = TRUE), 
+            min = min(porcentaje,na.rm = TRUE), 
+            rango = max-min)
 ```
 
--   <h4>Descripción y cantidad de observaciones</h4>
+#### Descripción y cantidad de observaciones
 
 ```{r}
 str(desempleo)
@@ -103,7 +108,7 @@ str(desempleo)
 
 <p>Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
 
--   <h4>Valores estadísticos</h4>
+#### Valores estadísticos
 
 ```{r}
 knitr::kable(mdesempleo)
@@ -130,7 +135,7 @@ desempleo_calificado <- filter(desempleo_calificado, Anio > "2000")
 
 <p>Esta tabla contiene 36 casos y la información sobre los desempleados hombres y mujeres con educación terciaria, por año.</p>
 
--   <h4>Descripción y cantidad de observaciones en desempleo calificado</h4>
+#### Descripción y cantidad de observaciones en desempleo calificado
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -139,7 +144,7 @@ mdescal <- desempleo_calificado %>% group_by(variable) %>% summarise(media = mea
 str(desempleo_calificado)
 ```
 
--   <h4>Valores estadísticos</h4>
+#### Valores estadísticos
 
 ```{r}
 knitr::kable(mdescal)
@@ -166,13 +171,13 @@ tipo_empleo <- filter(empleo_Arg,variable %in% c("empleo_agricultura_mujeres","e
 tipo_empleo$tipo <- str_replace(tipo_empleo$tipo, "leo", "autoempleo")
 ```
 
--   <h4>Descripción y cantidad de observaciones en tipo de actividad</h4>
+#### Descripción y cantidad de observaciones en tipo de actividad
 
 ```{r}
 str(tipo_empleo)
 ```
 
--   <h4>Valores estadísticos de tipo de actividad</h4>
+#### Valores estadísticos de tipo de actividad
 
 ```{r}
 # Cálculo de estadísticos desempleo calificado
@@ -197,7 +202,7 @@ empleo_domestico <- filter(empleo_Arg,variable %in% c("trabajo_domestico_no_remu
 empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 ```
 
--   <h4>Cantidad de observaciones en empleo doméstico</h4>
+#### Cantidad de observaciones en empleo doméstico
 
 <p>Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, no remunerado, en hombres y mujeres.</p>
 
@@ -205,7 +210,7 @@ empleo_domestico <- filter(empleo_domestico, Anio > "2003")
 str(empleo_domestico)
 ```
 
--   <h4>Valores estadísticos en empleo doméstico</h4>
+#### Valores estadísticos en empleo doméstico
 
 ```{r}
 medomestico <- empleo_domestico %>% group_by(variable) %>% summarise(media = mean(porcentaje,na.rm = TRUE), desvio = sd(porcentaje,na.rm = TRUE), max = max(porcentaje,na.rm = TRUE), min = min(porcentaje,na.rm = TRUE), rango = max-min)
