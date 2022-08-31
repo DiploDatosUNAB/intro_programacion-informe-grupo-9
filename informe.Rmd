@@ -21,7 +21,7 @@ library(stringr)
 
 El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas y el acoso sexual. Para ello se presenta una serie de indicadores, cuadros y gráficos, que intentan responder distintos tipos de preguntas. 
 
-Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de <em>data-frame</em> y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.
+Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de *data-frame* y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.
 
 Para ajustar los datos al alcance de este análisis, se utilizarán sólo los datos de Argentina comprendidos entre los años 1982 y 2018, que es el período en donde Argentina relevó datos. Fuera de ese período no hay información disponible.
 
@@ -103,7 +103,7 @@ mdesempleo <- desempleo  |>  group_by(variable)  |>
 str(desempleo)
 ```
 
-Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
+Desempleo es una tabla de 4 variables y 70 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
 
 #### Valores estadísticos
 
@@ -111,10 +111,12 @@ Desempleo es una tabla de 4 variables y 74 observaciones. Deriva de la tabla emp
 knitr::kable(mdesempleo)
 ```
 
-El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontro ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
+El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 ```{r}
 ggplot(desempleo,aes(Anio,porcentaje)) + 
@@ -155,7 +157,9 @@ knitr::kable(mdescal)
 La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
 ```{r}
-ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo,na.rm = TRUE)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
+ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
 ```
 
 ### Tipos de actividad
@@ -190,7 +194,10 @@ knitr::kable(mtempleo)
 
 ```{r}
 # Grafico por tipo de actividad
-ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
+ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + 
+  geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
 ```
 La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
 
@@ -222,14 +229,17 @@ knitr::kable(medomestico)
 
 
 ```{r}
-ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + geom_bar(stat = "Identity",position=position_dodge()) + labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
+ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + 
+  geom_bar(stat = "Identity",position=position_dodge()) + 
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 ```
 Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
 
 
 ## Hipótesis
 
- La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los paises del mundo. Algunas de las preguntas que nos hacemos son las siguientes:<b>¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrolarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?</b>.
+ La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo. Algunas de las preguntas que nos hacemos son las siguientes:*¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**.
 
 
 
