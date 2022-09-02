@@ -120,7 +120,8 @@ labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 ```{r}
 ggplot(desempleo,aes(Anio,porcentaje)) + 
-  geom_line(aes(color = sexo),lwd = 2) +
+  geom_line(aes(color = sexo),lwd = 1.5) +
+  par()
   labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
@@ -259,7 +260,7 @@ ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
 # Comparo las variables desempleo con empleo calificado eliminando los a;os que no tienen datos
 Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |> 
   filter(Anio > 1990) |> 
-  select(-sexo)
+  rename(em)
 
 # Calculo las medias por variable
 mjefesdescal <- Jefes_vs_desempleocal |> 
@@ -268,20 +269,22 @@ mjefesdescal <- Jefes_vs_desempleocal |>
 ```
 
 ```{r}
-ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = sexo, na.rm = TRUE)) +
+ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = variable, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  scale_fill_manual(values=c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460")) +
   labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
 ```
 
 ```{r}
 
-boxplot(porcentaje ~ variable, data = Jefes_vs_desempleocal, col = "#F0E68C")
-
-boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable, 
-        col = rainbow(ncol(Jefes_vs_desempleocal)), 
-        outbg = "black") +
-  labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
+boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
+        horizontal = TRUE,
+        col = c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460"), 
+        outbg = "#FF1493", 
+        ylab = "",
+        xlab = "Porcentaje",
+        las = 2)
+  title ("Gráfico XXXXXX - Empleadores vs desempleo calificado")
   
 ```
 
