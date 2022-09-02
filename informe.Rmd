@@ -120,7 +120,7 @@ labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 ```{r}
 ggplot(desempleo,aes(Anio,porcentaje)) + 
-  geom_line(aes(color = sexo)) +
+  geom_line(aes(color = sexo),lwd = 2) +
   labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
@@ -260,7 +260,7 @@ Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |>
 ```
 
 ```{r}
-ggplot(Jefes_vs_desempleocal, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
+ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = sexo, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
