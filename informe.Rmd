@@ -124,7 +124,7 @@ ggplot(desempleo,aes(Anio,porcentaje)) +
   labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
-A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educacion terciaria, las diferencias siguen ahí.
+A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educación terciaria, las diferencias siguen ahí.
 
 ### Desempleo calificado
 
@@ -157,7 +157,8 @@ knitr::kable(mdescal)
 La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
 ```{r}
-ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         geom_col(position=position_dodge()) + 
+ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         
+  geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
 ```
@@ -255,8 +256,15 @@ ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
 
 
 ```{r}
+# Comparo las variables desempleo con empleo calificado eliminando los a;os que no tienen datos
 Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |> 
-  group_by(sexo)
+  filter(Anio > 1990) |> 
+  select(-sexo)
+
+# Calculo las medias por variable
+mjefesdescal <- Jefes_vs_desempleocal |> 
+  group_by(variable) |> 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
 ```
 
 ```{r}
@@ -266,8 +274,21 @@ ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = sexo, na.rm = TRU
   labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
 ```
 
+```{r}
+
+boxplot(porcentaje ~ variable, data = Jefes_vs_desempleocal, col = "#F0E68C")
+
+boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable, 
+        col = rainbow(ncol(Jefes_vs_desempleocal)), 
+        outbg = "black") +
+  labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
+  
+```
 
 
+```{r}
+
+```
 
 
 
