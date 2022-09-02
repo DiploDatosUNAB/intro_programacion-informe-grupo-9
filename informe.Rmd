@@ -119,9 +119,8 @@ ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position
 labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje)) + 
-  geom_line(aes(color = sexo),lwd = 1.5) +
-  par()
+ggplot(desempleo,aes(Anio,porcentaje)) +  
+  geom_line(aes(color = sexo),lwd = 1.2) +
   labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
 ```
 
@@ -259,8 +258,7 @@ ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
 ```{r}
 # Comparo las variables desempleo con empleo calificado eliminando los a;os que no tienen datos
 Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |> 
-  filter(Anio > 1990) |> 
-  rename(em)
+  filter(Anio > 1990) 
 
 # Calculo las medias por variable
 mjefesdescal <- Jefes_vs_desempleocal |> 
