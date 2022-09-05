@@ -200,6 +200,7 @@ ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) +
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
 ```
+
 La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
 
 ### Empleo doméstico
@@ -235,6 +236,8 @@ ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) +
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 ```
+
+
 Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
 
 
