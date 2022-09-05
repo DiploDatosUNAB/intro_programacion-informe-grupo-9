@@ -52,7 +52,7 @@ empleo_Arg <- empleo_Arg |>
 empleo_Arg_ancho <- pivot_wider(empleo_Arg, 
                                 names_from = variable, 
                                 values_from = porcentaje)
-head(empleo_Arg_ancho,5)
+# head(empleo_Arg_ancho,5)
 ```
 
 La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.
@@ -371,19 +371,7 @@ ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) +
 ```
 
 ```{r}
-# Busco la distribución de la ocupación de las mujeres
-actividades_mujeres <- empleo_Arg |> 
-  mutate(sexo = ifelse(str_detect(variable,"mujeres"),"Mujer","Hombre")) |> 
-  filter(sexo == "Mujer") |> 
-  filter(variable != c("desempleo_mujeres","desempleo_educacion_mujeres8") |> 
-  group_by(variable) |> 
-  summarise(media = mean(porcentaje,na.rm = TRUE))
 
-head(actividades_mujeres,10)
-
-ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
-  geom_col(position=position_dodge()) +
-  labs(title = "Gráfico xxx - Distribución de actividad y género")
 ```
 
 
@@ -393,6 +381,21 @@ ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
 
 ### ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?
 
+```{r}
+# Busco la distribución de la ocupación de las mujeres
+actividades_mujeres <- empleo_Arg |> 
+  mutate(sexo = ifelse(str_detect(variable,"mujeres"),"Mujer","Hombre")) |> 
+  filter(sexo == "Mujer") |> 
+  filter(variable != "desempleo_mujeres" & variable != "desempleo_educacion_mujeres") |> 
+  group_by(variable) |> 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
+
+head(actividades_mujeres,10)
+
+ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
+  geom_col(position=position_dodge()) +
+  labs(title = "Gráfico xxx - Distribución de actividad y género")
+```
 
 
 
