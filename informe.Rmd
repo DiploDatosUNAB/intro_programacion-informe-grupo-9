@@ -12,6 +12,8 @@ library(usethis)
 library(readr)
 library(readxl)
 library(ggplot2)
+library(ggrepel)
+library(plotrix)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -20,6 +22,9 @@ library(tseries)
 library(gridExtra)
 library(patchwork)
 ```
+
+<center><a href="https://imgbb.com/"><img src="https://i.ibb.co/9ZqpVzh/genero.png" alt="genero" border="0"></a> </center>
+
 
 ## Introducción
 
@@ -43,7 +48,10 @@ empleo_genero <- read.csv("datos/empleo_genero.csv")  |>
 empleo_genero <- empleo_genero[,-which(colMeans(is.na(empleo_genero)) == 1)]
 
 # Transposición de los datos de la tabla
-empleo_Arg <- pivot_longer(empleo_genero, cols=2:36, names_to = "Anio", values_to = "porcentaje") 
+empleo_Arg <- pivot_longer(empleo_genero, 
+                           cols=2:36, 
+                           names_to = "Anio", 
+                           values_to = "porcentaje") 
 
 # reemplazo los valores de los años por el número correspondiente
 # Convierto Anio a numérico
@@ -56,7 +64,7 @@ empleo_Arg <- empleo_Arg |>
 empleo_Arg_ancho <- pivot_wider(empleo_Arg, 
                                 names_from = variable, 
                                 values_from = porcentaje)
-# head(empleo_Arg_ancho,5)
+
 ```
 
 La tabla empleo_Arg contiene 3 variables y 740 observaciones. Los nombres de las variables son: variable, Anio y porcentaje, surge como resultado del filtrado del <em>data-frame</em> original para retener sólo los datos de Argentina.
@@ -90,6 +98,7 @@ Detalle de las variables incluidas en `variable`:
 
 Seguiremos transformando los datos para ajustarlos al alcance de nuestro análisis. Así, elaboraremos tablas de datos de desempleo, desempleo calificado, distribución por tipo de empleo y otras.
 
+
 ### Desempleo
 
 
@@ -105,12 +114,14 @@ mdesempleo <- desempleo  |>  group_by(variable)  |>
             max = max(porcentaje,na.rm = TRUE), 
             min = min(porcentaje,na.rm = TRUE), 
             rango = max-min)
+
 ```
 
 #### Descripción y cantidad de observaciones
 
 ```{r}
 str(desempleo)
+
 ```
 
 Desempleo es una tabla de 4 variables y 70 observaciones. Deriva de la tabla empleo_Arg, y presenta sólo los datos de desempleo.
@@ -119,22 +130,59 @@ Desempleo es una tabla de 4 variables y 70 observaciones. Deriva de la tabla emp
 
 ```{r}
 knitr::kable(mdesempleo)
+
 ```
 
 El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
+G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+labs(title = "Gráfico 1 - Desempleo por género y año")
+
 ```
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje)) +  
-  geom_line(aes(color = sexo),lwd = 1.2) +
-  labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +  
+  geom_line(aes(color = sexo),lwd = 1.2)
+
 ```
 
-A lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educación terciaria, las diferencias siguen ahí.
+```{r}
+# Cálculo de estadísticos desempleo 
+mdesempleo <- desempleo  |>  
+  group_by(variable) |> 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
+
+mdesempleo2 <- mdesempleo |>  
+  mutate(csum = rev(cumsum(rev(media))), 
+         pos = media/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), media/2, pos))
+
+
+
+G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
+  scale_fill_brewer(palette = "Pastel2") +
+  geom_col(width = 1, color = 1) +
+  coord_polar(theta = "y") +
+  geom_label_repel(data = mdesempleo2,
+                   aes(y = pos, label = paste0(media, "%")),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE) +
+  guides(fill = guide_legend(title = "% Promedio")) +
+  theme_void()
+
+
+
+# G1_4 <- pie3D(mdesempleo2$media, col = hcl.colors(length(datos), "Spectral"), border = "white")
+```
+
+```{r}
+G1_1 + (G1_2 / G1_3) + plot_layout(ncol=2,widths=c(2,1))
+
+```
+
+
+
+Con cualquiera de los gráficos podemos ver que a lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educación terciaria, las diferencias siguen ahí.
 
 ### Desempleo calificado
 
@@ -173,10 +221,14 @@ knitr::kable(mdescal)
 La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
 ```{r}
-ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         
+# Gr;afico de desempleo calificado
+
+G2 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
+
+G2
 ```
 
 ### Tipos de actividad
@@ -217,10 +269,13 @@ knitr::kable(mtempleo)
 
 ```{r}
 # Grafico por tipo de actividad
-ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + 
+
+G3 <- ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + 
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
+
+G3
 ```
 
 La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
@@ -259,10 +314,12 @@ knitr::kable(medomestico)
 
 
 ```{r}
-ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + 
+G4 <- ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + 
   geom_bar(stat = "Identity",position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
+
+G4
 ```
 
 
@@ -272,59 +329,29 @@ Es imposible imaginar un mundo en el cual no exista quien realice las tareas cot
 ```{r}
 empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) |> 
   mutate(sexo = ifelse(variable == "empleadoras_mujeres","Mujer","Hombre")) 
+```
 
+```{r}
+mempempleadores <- empleadores  %>%
+  group_by(variable)  %>%  
+  summarise(media = mean(porcentaje,na.rm = TRUE), 
+            desvio = sd(porcentaje,na.rm = TRUE), 
+            max = max(porcentaje,na.rm = TRUE), 
+            min = min(porcentaje,na.rm = TRUE), 
+            rango = max-min)
 
+knitr::kable(mempempleadores)
 ```
 
 
-
 ```{r}
-ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
+G5 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-  labs(title = "Gráfico XXXXXX - Empleadores por género y año")
+  labs(title = "Gráfico 5 - Empleadores por género y año")
+
+G5
 ```
-
-
-```{r}
-# Comparo las variables desempleo con empleo calificado eliminando los a;os que no tienen datos
-Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) |> 
-  filter(Anio > 1990) 
-
-# Calculo las medias por variable
-mjefesdescal <- Jefes_vs_desempleocal |> 
-  group_by(variable) |> 
-  summarise(media = mean(porcentaje,na.rm = TRUE))
-```
-
-```{r}
-ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = variable, na.rm = TRUE)) +
-  geom_col(position=position_dodge()) + 
-  scale_fill_manual(values=c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460")) +
-  labs(title = "Gráfico XXXXXX - Empleadores vs desempleo calificado")
-```
-
-```{r}
-
-boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
-        horizontal = TRUE,
-        col = c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460"), 
-        outbg = "#FF1493", 
-        ylab = "",
-        xlab = "Porcentaje",
-        las = 2)
-  title ("Gráfico XXXXXX - Empleadores vs desempleo calificado")
-  
-```
-
-
-```{r}
-
-```
-
-
-
-
 
 
 ## Hipótesis
@@ -332,75 +359,119 @@ boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
  La igualdad de género es un derecho fundamental y crucial para el desarrollo sostenible, sin embargo aún se observan marcadas diferencias entre mujeres y hombres en los mercados de trabajo de todos los países del mundo. Algunas de las preguntas que nos hacemos son las siguientes:**¿Existe una brecha de desempleo de acuerdo al género de las personas?, ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?, ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?, ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?, ¿Está asociado el trabajo doméstico con el trabajo informal? ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**.
 
 
-
 ## Tesis
 
-Intentaremos contestar a continuación, alguna de estas preguntas.
+En esta segunda parte del informe intentaremos contestar algunas de las preguntas que nos surgieron al trabajar los datos. 
 
-### ¿Existe una brecha de desempleo de acuerdo al género de las personas?
+La primer pregunta que surgió al encarar este proyecto fue **¿Existe una brecha de desempleo de acuerdo al género de las personas?**
+
+Claramente la respuesta es si. Como mencionamos anteriormente tenemos un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Por lo tanto, existe una brecha porcentual del 2.31. ¿Por qué debería preocuparnos la brecha de género? La libertad de trabajar, por decisión propia y en condiciones de dignidad, seguridad y equidad, es esencial para el bienestar humano. Garantizar que la mujer goce de este derecho es un objetivo importante en sí mismo y en el siguiente gráfico se muestra que solo en dos años se logró revertir la situación en una pequeña diferencia y que luego la brecha se hace más pronunciada.
 
 ```{r}
-ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-labs(title = "Gráfico 1 - Desempleo femenino y masculino por año")
+G1_1
 ```
 
+Quizás viendo los datos anteriores uno pensaría que esa brecha puede originarse a la falta de educación o que los hombres están más preparados académicamente que las mujeres y de esa manera tener más oportunidades en el campo laboral dejando de lado la famosa teoría del techo de cristal, esa barrera invisible que impide que las mujeres alcancen las mismas posiciones de poder que los hombres y que está relacionada directamente con las normas y los estereotipos.  Ahí nos surgen las siguientes preguntas **¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos? ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?**
 
-### ¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos?
+
+
+Si bien el desempleo calificado es generalizado tanto para la mujer como para el hombre, la mujer tiende a tener un índice mayor de desempleo generando una brecha porcentual del 1.81. Viendo este número uno pensaría que la brecha de empleadores/as estaría rondando en un porcentaje similar si existiesen las mismas oportunidades. 
 
 ```{r}
-ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         
+# Gr;afico de desempleo calificado
+G2
+```
+```{r}
+empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) %>% 
+  mutate(sexo = ifelse(variable == "empleadoras_mujeres","Mujer","Hombre")) 
+```
+
+En el siguiente gráfico hicimos una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha porcentual de empleadores/as que alcanza el 3.13 cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
+
+
+```{r}
+# Comparo las variables desempleo con empleo calificado eliminando los a;os que no tienen datos
+Jefes_vs_desempleocal <- union(empleadores, desempleo_calificado) %>% 
+  filter(Anio > 1990) 
+
+# Calculo las medias por variable
+mjefesdescal <- Jefes_vs_desempleocal %>%
+  group_by(variable) %>% 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
+```
+
+```{r}
+
+G5 <- ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = variable, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
+  scale_fill_manual(values=c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460")) +
+  labs(title = "Gráfico 5 - Empleadores vs desempleo calificado")
+
+G5
+```
+
+```{r}
+
+G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
+  geom_point(colour = "blue") + 
+  geom_smooth()+
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-  labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
+  labs(title = "Gráfico 6 - Empleadores por género y año")+
+  facet_wrap(~sexo, ncol = 2)
+
+G6
 ```
 
-
-### ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?
 
 ```{r}
 
+G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
+        horizontal = TRUE,
+        col = c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460"), 
+        outbg = "#FF1493", 
+        ylab = "",
+        xlab = "Porcentaje",
+        las = 2)
+  title ("Gráfico 7 - Empleadores vs desempleo calificado")
+  
 ```
 
+Nos gustaría responder todas las preguntas, pero no hay datos relevados de los ingresos, aunque hay que tener en cuenta que según la actividad que se desarrolla marca una diferencia económica y eso nos obliga a hablar de la teoría de las paredes de cristal (obstáculos para que las mujeres accedan a ciertos sectores productivos), y eso hace que nos preguntemos **¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**
 
-### ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
 
 ```{r}
-ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + 
-  geom_bar(stat = "Identity",position=position_dodge()) + 
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-  labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
-
-
+# Grafico por tipo de actividad
+G3
 ```
-
-```{r}
-
-```
-
-
-
-### ¿Está asociado el trabajo doméstico con el trabajo informal?
-
-
-### ¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?
 
 ```{r}
 # Busco la distribución de la ocupación de las mujeres
-actividades_mujeres <- empleo_Arg |> 
-  mutate(sexo = ifelse(str_detect(variable,"mujeres"),"Mujer","Hombre")) |> 
-  filter(sexo == "Mujer") |> 
-  filter(variable != "desempleo_mujeres" & variable != "desempleo_educacion_mujeres") |> 
-  group_by(variable) |> 
+actividades_mujeres <- empleo_Arg %>%
+  mutate(sexo = ifelse(str_detect(variable,"mujeres"),"Mujer","Hombre")) %>% 
+  filter(sexo == "Mujer") %>% 
+  filter(variable != "desempleo_mujeres" & variable != "desempleo_educacion_mujeres") %>% 
+  group_by(variable) %>% 
   summarise(media = mean(porcentaje,na.rm = TRUE))
 
 head(actividades_mujeres,10)
 
-ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
+G8 <- ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
-  labs(title = "Gráfico xxx - Distribución de actividad y género")
+  labs(title = "Gráfico 8 - Distribución de actividad y género")
+
+G8
 ```
 
+### ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
+
+Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
+
+```{r}
+# Gráfico de empleo doméstico
+G4
+```
+
+## Conclusiones
 
 
 
