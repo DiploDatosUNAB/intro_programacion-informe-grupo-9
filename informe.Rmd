@@ -156,7 +156,8 @@ mdesempleo <- desempleo  |>
 mdesempleo2 <- mdesempleo |>  
   mutate(csum = rev(cumsum(rev(media))), 
          pos = media/2 + lead(csum, 1),
-         pos = if_else(is.na(pos), media/2, pos))
+         pos = if_else(is.na(pos), media/2, pos),
+         media = round(media, 2))
 
 
 
@@ -170,10 +171,8 @@ G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
   guides(fill = guide_legend(title = "% Promedio")) +
   theme_void()
 
-
-
-# G1_4 <- pie3D(mdesempleo2$media, col = hcl.colors(length(datos), "Spectral"), border = "white")
 ```
+
 
 ```{r}
 G1_1 + (G1_2 / G1_3) + plot_layout(ncol=2,widths=c(2,1))
