@@ -181,7 +181,7 @@ G1_1 + (G1_2 / G1_3) + plot_layout(ncol=2,widths=c(2,1))
 
 
 
-Con cualquiera de los gráficos podemos ver que a lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Incluso cuando se trata de hombres y mujeres con educación terciaria, las diferencias siguen ahí.
+Con cualquiera de los gráficos podemos ver que a lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo. Veremos qué pasa cuando se trata de hombres y mujeres con educación terciaria, si las diferencias siguen ahí.
 
 ### Desempleo calificado
 
