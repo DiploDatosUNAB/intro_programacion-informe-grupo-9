@@ -383,7 +383,7 @@ empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","emplead
   mutate(sexo = ifelse(variable == "empleadoras_mujeres","Mujer","Hombre")) 
 ```
 
-En el gráfico 5 se hizo una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha. El porcentual de empleadores/as alcanza el 3.13 % cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
+En el gráfico 5 se hizo una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha. El porcentual de empleadores/as alcanza el 3.13 % cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 % y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
 
 
 ```{r echo = FALSE, warning=FALSE}
@@ -422,6 +422,12 @@ G6
 
 ```{r echo = FALSE, warning=FALSE, fig.align='center'}
 
+Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "mujeres", "M")
+Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "hombres", "H")  
+Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "desempleo_educacion", "Dcal")
+Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "empleadores", "Jefe") 
+Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "empleadoras", "Jefa") 
+
 G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
         horizontal = TRUE,
         col = c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460"), 
@@ -430,12 +436,12 @@ G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
         xlab = "Porcentaje",
         las = 2)
   title ("Gráfico 7 - Empleadores vs desempleo calificado")
-  
+
 ```
 
-Nos gustaría responder todas las preguntas, pero no hay datos relevados de los ingresos, aunque hay que tener en cuenta que según la actividad que se desarrolla marca una diferencia económica y eso nos obliga a hablar de la teoría de las paredes de cristal (obstáculos para que las mujeres accedan a ciertos sectores productivos), y eso hace que nos preguntemos **¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**
+Nos gustaría responder todas las preguntas, pero no hay datos relevados de los ingresos, aunque hay que tener en cuenta que dependiendo de la actividad que se desarrolla, determina una diferencia económica y eso nos obliga a hablar de la teoría de las paredes de cristal (obstáculos para que las mujeres accedan a ciertos sectores productivos), y eso hace que nos preguntemos **¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**
 
-A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos como un rol "femenino",  en el gráfico 3 podemos apreciar que en el sector de servicios las mujeres superan más del 80% y en la industria donde la brecha está muy marcada no supera el 12%.  
+A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado, consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos con un rol "femenino". En el gráfico 3 podemos apreciar que en el sector de servicios las mujeres superan el 80% y en la industria, donde la brecha está muy marcada, no supera el 12%.  
 
 
 ```{r echo = FALSE, warning=FALSE, fig.align='center'}
@@ -456,17 +462,17 @@ head(actividades_mujeres,10)
 
 G8 <- ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
-  labs(title = "Gráfico 8 - Distribución de actividad y género")
+  labs(title = "Gráfico 8 - Distribución de la actividad femenina")
 
 G8
 ```
-En el gráfico 8 podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le resta tiempo a las mujeres para realizar trabajo remunerado?
+En el gráfico 8 podemos tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
 
 **“Eso que llaman amor, es trabajo no pago”**
 
 Efectivamente, la distribución de estas tareas entre los géneros es marcadamente desigual. El porcentaje del día utilizado por las mujeres para hacer tareas domésticas es de 19.21%, y los hombres, solo el 7.31%.
 Incluso una mujer que trabaja (fuera del hogar y de manera paga) en una jornada completa dedica más horas a estas tareas, en otros casos las mujeres trabajan en forma parcial o trabajo informal para dedicarle tiempo a la crianza de sus hijos o al cuidado de un familiar, ya que estas tareas en muchos casos le quitan tiempo para realizar trabajo remunerado.
-Así las cosas, las mujeres quedan inmersas en una suerte de círculo vicioso, en el que no solo dedican gran parte de su tiempo a este tipo de tareas no remuneradas, sino que, al hacerlo, acrecientan sus desventajas con respecto al mercado laboral remunerado. Lamentablemente es una tarea que se asocia al rol femenino y a pesar que en los últimos años pareciera que hay más participación en las tareas domésticas por parte de los hombres la brecha sigue siendo importante.
+Así las cosas, las mujeres quedan inmersas en una suerte de círculo vicioso, en el que no sólo dedican gran parte de su tiempo a este tipo de tareas no remuneradas, sino que, al hacerlo, acrecientan sus desventajas con respecto al mercado laboral remunerado. Lamentablemente es una tarea que se asocia al rol femenino y a pesar que en los últimos años hay más participación en las tareas domésticas por parte de los hombres, la brecha sigue siendo importante.
 
 
 ```{r, echo = FALSE, warning=FALSE, fig.align='center'}
@@ -476,12 +482,8 @@ G4
 
 ## Conclusiones
 
-Sin lugar a dudas, el análisis realizado permite concluir que aún existe una amplia brecha
-laboral de género. El objetivo de igual remuneración por igual trabajo es una promesa
-incumplida. La brecha con los hombres es todavía importante, y demuestra que a pesar de tener 
-los mismos niveles de formación profesional las mujeres no tienen las mismas oportunidades.
-Por último, cabe destacar que la mujer emplea gran parte de su tiempo a las tareas domésticas y 
-eso le resta tiempo a un trabajo remunerado que le permita desarrollo económico.
+Sin lugar a dudas, el análisis realizado permite concluir que aún existe una amplia brecha laboral de género. El objetivo de igual remuneración por igual trabajo es una promesa incumplida. La brecha con los hombres es todavía importante, y demuestra que a pesar de tener los mismos niveles de formación profesional las mujeres no tienen las mismas oportunidades.
+Por último, cabe destacar que la mujer destina gran parte de su tiempo a las tareas domésticas y eso le resta tiempo para un trabajo remunerado que le permita un mejor desarrollo económico.
 
 
 
