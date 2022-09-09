@@ -370,7 +370,7 @@ Claramente la respuesta es si. Como mencionamos anteriormente tenemos un promedi
 G1_1
 ```
 
-Quizás viendo los datos anteriores uno pensaría que esa brecha puede originarse a la falta de educación o que los hombres están más preparados académicamente que las mujeres y de esa manera tener más oportunidades en el campo laboral dejando de lado la famosa teoría del techo de cristal, esa barrera invisible que impide que las mujeres alcancen las mismas posiciones de poder que los hombres y que está relacionada directamente con las normas y los estereotipos.  Ahí nos surgen las siguientes preguntas **¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos? ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?**
+Quizás viendo los datos anteriores uno pensaría que esa brecha puede originarse en la falta de educación o que los hombres están más preparados académicamente que las mujeres y de esa manera tener más oportunidades en el campo laboral dejando de lado la famosa teoría del techo de cristal, esa barrera invisible que impide que las mujeres alcancen las mismas posiciones de poder que los hombres y que está relacionada directamente con las normas y los estereotipos.  Ahí nos surgen las siguientes preguntas **¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos? ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?**
 
 Si bien el desempleo calificado es generalizado tanto para la mujer como para el hombre, la mujer tiende a tener un índice mayor de desempleo generando una brecha porcentual del 1.81. Viendo este número uno pensaría que la brecha de empleadores/as estaría rondando en un porcentaje similar si existiesen las mismas oportunidades. 
 
@@ -383,7 +383,7 @@ empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","emplead
   mutate(sexo = ifelse(variable == "empleadoras_mujeres","Mujer","Hombre")) 
 ```
 
-En el gráfico 5 se hizo una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha El porcentual de empleadores/as que alcanza el 3.13 cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
+En el gráfico 5 se hizo una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha. El porcentual de empleadores/as alcanza el 3.13 % cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
 
 
 ```{r echo = FALSE, warning=FALSE}
@@ -411,7 +411,7 @@ G5
 
 G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_point(colour = "blue") + 
-  geom_smooth()+
+  geom_smooth() +
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 6 - Empleadores por género y año")+
   facet_wrap(~sexo, ncol = 2)
