@@ -407,7 +407,7 @@ G5 <- ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = variable, n
 G5
 ```
 
-```{r echo = FALSE, warning=FALSE, fig.align='center'}
+```{r echo = FALSE, warning=FALSE, cache=FALSE, message=FALSE, fig.align='center'}
 
 G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_point(colour = "blue") + 
