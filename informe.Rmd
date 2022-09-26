@@ -474,6 +474,19 @@ G8
 ```
 En el gráfico 8 podemos tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
 
+```{r}
+# Busco la distribución de la ocupación de los hombres
+actividades_hombres <- empleo_Arg %>%
+  mutate(sexo = ifelse(str_detect(variable,"hombres"),"Hombre","Mujer")) %>% 
+  filter(sexo == "Hombre") %>% 
+  filter(variable != "desempleo_hombres" & variable != "desempleo_educacion_hombres") %>% 
+  group_by(variable) %>% 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
+
+head(actividades_hombres,10)
+```
+
+
 **“Eso que llaman amor, es trabajo no pago”**
 
 Efectivamente, la distribución de estas tareas entre los géneros es marcadamente desigual. El porcentaje del día utilizado por las mujeres para hacer tareas domésticas es de 19.21%, y los hombres, solo el 7.31%.
