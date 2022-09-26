@@ -137,15 +137,15 @@ El primer análisis que podemos hacer es comparar ciertos datos estadísticos co
 
 ```{r}
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  scale_fill_manual(values=c("#efc3c0", "#23c5c9")) +
 labs(title = "Gráfico 1 - Desempleo por género y año")
 
 ```
 ```{r}
 G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-  geom_line(aes(color = sexo),lwd = 1.2)
-
+ ## scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  geom_line(aes(color = sexo),lwd = 1.2)+
+ scale_fill_manual(values=c("#efc3c0", "#23c5c9"))
 
 ```
 
@@ -164,7 +164,7 @@ mdesempleo2 <- mdesempleo |>
 
 
 G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  scale_fill_manual(values=c("#efc3c0", "#23c5c9")) +
   geom_col(width = 1, color = 1) +
   coord_polar(theta = "y") +
   geom_label_repel(data = mdesempleo2,
@@ -224,7 +224,8 @@ La población de mujeres con nivel terciario desempleadas llega casi al 6%, mien
 ```{r, fig.width=10, fig.height=5, warning=FALSE, fig.align='center'}
 # Gr;afico de desempleo calificado
 
-G2 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +         
+G2 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +  
+  theme_classic()+
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
@@ -385,9 +386,11 @@ G2
 ```{r warning=FALSE, cache=FALSE, message=FALSE, fig.align='center'}
 
 G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
+  ##scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  ##theme_classic()+
   geom_point(colour = "blue") + 
   geom_smooth() +
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  
   labs(title = "Gráfico 6 - Empleadores por género y año")+
   facet_wrap(~sexo, ncol = 2)
 
