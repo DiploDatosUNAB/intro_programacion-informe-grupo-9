@@ -467,13 +467,15 @@ actividades_mujeres <- empleo_Arg %>%
 
 head(actividades_mujeres,10)
 
+```
+
+```{r}
 G8 <- ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
   scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
   limits = c(0, 100)) +
   labs(title = "Gráfico 8 - Distribución de la actividad femenina")
 
-G8
 ```
 
 
@@ -490,21 +492,17 @@ actividades_hombres <- empleo_Arg %>%
 
 head(actividades_hombres,10)
 ```
-```{r}
+```{r fig.width=10, fig.height=5, warning=FALSE, fig.align='center'}
 G9 <- ggplot(actividades_hombres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
   scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
   limits = c(0, 80)) +
   labs(title = "Gráfico 9 - Distribución de la actividad masculina")
 
-G9
 ```
 
-```{r}
-# No logro que se vean bien de esta manera
-G8 | G9
-```
-```{r}
+
+```{r fig.width=10, fig.height=5, warning=FALSE, fig.align='center'}
 G8
 G9
 ```
