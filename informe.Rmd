@@ -399,7 +399,7 @@ G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
 
 G6
 ```
-Lo que es notable de este gráfico además de la diferencia promedio es la tasa a la baja del porcentaje de empleadores mientras que el porcentaje de empleadoras está constante. ¿Eso por qué será? ¿Esto es el porcentaje de hombres que son empleadores o el porcentaje de empleadores y empleadoras que son hombres?
+Este gráfico muestra algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantiene bastante estable a través de los años observados, a pesar de mostrar una inflexión similar entre los años 2005 y 2007 aproximadamente.
 
 ```{r warning=FALSE}
 empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) %>% 
@@ -448,6 +448,8 @@ G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
 
 ```
 
+El gráfico 7 no sólo confirma sino que amplía lo que podemos observar en el gráfico 5. La dispersión en la variable jefas_mujeres es muy pequeña y casi todos los valores están muy cercanos a la media. Ni siquiera los valores extremos se apartan demasiado, a diferencia del caso de jefes_hombres.
+
 Nos gustaría responder todas las preguntas, pero no hay datos relevados de los ingresos, aunque hay que tener en cuenta que dependiendo de la actividad que se desarrolla, determina una diferencia económica y eso nos obliga a hablar de la teoría de las paredes de cristal (obstáculos para que las mujeres accedan a ciertos sectores productivos), y eso hace que nos preguntemos **¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**
 
 A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado, consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos con un rol "femenino". En el gráfico 3 podemos apreciar que en el sector de servicios las mujeres superan el 80% y en la industria, donde la brecha está muy marcada, no supera el 12%.  
@@ -495,7 +497,9 @@ actividades_hombres <- empleo_Arg %>%
 
 head(actividades_hombres,10) |> 
   gt()
+
 ```
+
 
 
 En el gráfico 8 podemos tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
