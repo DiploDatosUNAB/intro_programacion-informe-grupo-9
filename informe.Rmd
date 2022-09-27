@@ -21,6 +21,7 @@ library(quantmod)
 library(tseries)
 library(gridExtra)
 library(patchwork)
+library(ggpubr)
 ```
 
 <center><a href="https://imgbb.com/"><img src="https://i.ibb.co/9ZqpVzh/genero.png" alt="genero" border="0"></a> </center>
@@ -468,10 +469,14 @@ head(actividades_mujeres,10)
 
 G8 <- ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
+  scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
+  limits = c(0, 100)) +
   labs(title = "Gráfico 8 - Distribución de la actividad femenina")
 
 G8
 ```
+
+
 En el gráfico 8 podemos tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
 
 ```{r}
@@ -484,6 +489,24 @@ actividades_hombres <- empleo_Arg %>%
   summarise(media = mean(porcentaje,na.rm = TRUE))
 
 head(actividades_hombres,10)
+```
+```{r}
+G9 <- ggplot(actividades_hombres, aes(media, variable, fill = variable)) +
+  geom_col(position=position_dodge()) +
+  scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
+  limits = c(0, 80)) +
+  labs(title = "Gráfico 9 - Distribución de la actividad masculina")
+
+G9
+```
+
+```{r}
+# No logro que se vean bien de esta manera
+G8 | G9
+```
+```{r}
+G8
+G9
 ```
 
 
