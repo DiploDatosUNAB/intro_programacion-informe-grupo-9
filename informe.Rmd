@@ -399,7 +399,7 @@ G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
 
 G6
 ```
-Este gráfico muestra algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantiene bastante estable a través de los años observados, a pesar de mostrar una inflexión similar entre los años 2005 y 2007 aproximadamente.
+Este gráfico muestra algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantiene bastante estable a través de los años observados, a pesar de mostrar una inflexión similar entre los años 2005 y 2007 aproximadamente. Si bien no tenemos datos suficientes para demostrarlo, nuestra sospecha es que la misma desigualdad ha provocado que las mujeres que logran alcanzar un puesto de jefas, lo hagan con mucha más solidez que los hombres, lo que en épocas de inestabilidad económica se traduzca en una menor caída en esos puestos de trabajo. 
 
 ```{r warning=FALSE}
 empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) %>% 
