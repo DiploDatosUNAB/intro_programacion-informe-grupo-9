@@ -391,23 +391,6 @@ G2
 ```
 
 
-<<<<<<< HEAD
-```{r warning=FALSE, cache=FALSE, message=FALSE, fig.align='center'}
-
-G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
-  ##scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
-  ##theme_classic()+
-  geom_point(colour = "blue") + 
-  geom_smooth() +
-  
-  labs(title = "Gráfico 6 - Empleadores por género y año")+
-  facet_wrap(~sexo, ncol = 2)
-
-G6
-```
-Este gráfico muestra algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantiene bastante estable a través de los años observados, a pesar de mostrar una inflexión similar entre los años 2005 y 2007 aproximadamente. Si bien no tenemos datos suficientes para demostrarlo, nuestra sospecha es que la misma desigualdad ha provocado que las mujeres que logran alcanzar un puesto de jefas, lo hagan con mucha más solidez que los hombres, lo que en épocas de inestabilidad económica se traduzca en una menor caída en esos puestos de trabajo. 
-=======
->>>>>>> 44e9708a9f6de5e827439ec8310d4945e8b7d09a
 
 ```{r warning=FALSE}
 empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) %>% 
@@ -452,7 +435,9 @@ G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
 
 G6
 ```
-En el gráfico 6 podemos observar algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantuvo bastante estable a través de los años observados, a pesar de que mostro una inflexión similar entre los años 2005 y 2007 aproximadamente. Otro dato notable para destacar es que a pesar de existir una caida pronunciada en el porcentaje empleadores hombres, no existe una subida pronunciada en empleadoras mujeres que indique que fueron adquiriendo más oportunidades, por el contrario se mantuvo estable.
+En el gráfico 6 podemos observar algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantuvo bastante estable a través de los años observados, a pesar de que mostró una inflexión similar entre los años 2005 y 2007 aproximadamente. Otro dato notable para destacar es que a pesar de existir una caída pronunciada en el porcentaje empleadores hombres, no existe una subida pronunciada en empleadoras mujeres que indique que fueron adquiriendo más oportunidades, por el contrario se mantuvo estable.
+
+Si bien no tenemos datos suficientes para demostrarlo, nuestra sospecha es que la misma desigualdad ha provocado que las mujeres que logran alcanzar un puesto de jefas, lo hagan con mucha más solidez que los hombres, lo que en épocas de inestabilidad económica se traduzca en una menor caída en esos puestos de trabajo.
 
 ```{r warning=FALSE, fig.align='center'}
 
