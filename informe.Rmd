@@ -137,17 +137,19 @@ knitr::kable(mdesempleo)
 
 ```
 
-El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna alguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
+El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
 ```{r warning=FALSE}
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  theme_classic()+
 labs(title = "Gráfico 1 - Desempleo por género y año")
 
 ```
 ```{r warning=FALSE}
 G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
   geom_line(aes(color = sexo),lwd = 1.2)+
+  theme_classic()+
  scale_color_manual(values=c("#DC143C", "#2E8B57"))
 
 ```
@@ -278,6 +280,7 @@ knitr::kable(mtempleo)
 G3 <- ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) + 
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  theme_classic()+
   labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
 
 G3
@@ -322,6 +325,7 @@ knitr::kable(medomestico)
 G4 <- ggplot(empleo_domestico,aes(Anio,porcentaje, fill = sexo)) + 
   geom_bar(stat = "Identity",position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  theme_classic()+
   labs(title = "Gráfico 4 - Empleo doméstico no remunerado por año y género")
 
 G4
@@ -353,6 +357,7 @@ knitr::kable(mempempleadores)
 G5 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  theme_classic()+
   labs(title = "Gráfico 5 - Empleadores por género y año")
 
 G5
@@ -386,6 +391,7 @@ G2
 ```
 
 
+<<<<<<< HEAD
 ```{r warning=FALSE, cache=FALSE, message=FALSE, fig.align='center'}
 
 G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
@@ -400,6 +406,8 @@ G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
 G6
 ```
 Este gráfico muestra algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantiene bastante estable a través de los años observados, a pesar de mostrar una inflexión similar entre los años 2005 y 2007 aproximadamente. Si bien no tenemos datos suficientes para demostrarlo, nuestra sospecha es que la misma desigualdad ha provocado que las mujeres que logran alcanzar un puesto de jefas, lo hagan con mucha más solidez que los hombres, lo que en épocas de inestabilidad económica se traduzca en una menor caída en esos puestos de trabajo. 
+=======
+>>>>>>> 44e9708a9f6de5e827439ec8310d4945e8b7d09a
 
 ```{r warning=FALSE}
 empleadores <- filter(empleo_Arg, variable %in% c("empleadoras_mujeres","empleadores_hombres")) %>% 
@@ -425,10 +433,27 @@ mjefesdescal <- Jefes_vs_desempleocal %>%
 G5 <- ggplot(Jefes_vs_desempleocal, aes(porcentaje, variable, fill = variable, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#DDA0DD", "#8FBC8F", "#00FFFF", "#F4A460")) +
+  theme_classic()+
   labs(title = "Gráfico 5 - Empleadores vs desempleo calificado")
 
 G5
 ```
+
+```{r warning=FALSE, cache=FALSE, message=FALSE, fig.align='center'}
+
+G6 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo)) +
+  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  ##theme_classic()+
+  geom_point(colour = "blue") + 
+  geom_smooth() +
+  
+  labs(title = "Gráfico 6 - Empleadores por género y año")+
+  facet_wrap(~sexo, ncol = 2)
+
+G6
+```
+En el gráfico 6 podemos observar algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantuvo bastante estable a través de los años observados, a pesar de que mostro una inflexión similar entre los años 2005 y 2007 aproximadamente. Otro dato notable para destacar es que a pesar de existir una caida pronunciada en el porcentaje empleadores hombres, no existe una subida pronunciada en empleadoras mujeres que indique que fueron adquiriendo más oportunidades, por el contrario se mantuvo estable.
+
 ```{r warning=FALSE, fig.align='center'}
 
 Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "mujeres", "M")
@@ -450,6 +475,10 @@ G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
 
 El gráfico 7 no sólo confirma sino que amplía lo que podemos observar en el gráfico 5. La dispersión en la variable jefas_mujeres es muy pequeña y casi todos los valores están muy cercanos a la media. Ni siquiera los valores extremos se apartan demasiado, a diferencia del caso de jefes_hombres.
 
+
+
+#### La teoría de las paredes de cristal
+
 Nos gustaría responder todas las preguntas, pero no hay datos relevados de los ingresos, aunque hay que tener en cuenta que dependiendo de la actividad que se desarrolla, determina una diferencia económica y eso nos obliga a hablar de la teoría de las paredes de cristal (obstáculos para que las mujeres accedan a ciertos sectores productivos), y eso hace que nos preguntemos **¿Las mujeres pueden desarrollarse en cualquier tipo de empleo o el sistema las condiciona a realizar determinadas tareas?**
 
 A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado, consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos con un rol "femenino". En el gráfico 3 podemos apreciar que en el sector de servicios las mujeres superan el 80% y en la industria, donde la brecha está muy marcada, no supera el 12%.  
@@ -460,7 +489,8 @@ A pesar de que las mujeres entran cada día con más fuerza al mercado laboral r
 G3
 ```
 
-A continuación podemos ver las tablas con las medias de la distribución por tipo de empleo, tanto para hombres como para mujeres:
+A continuación podemos ver las tablas con las medias de la distribución por tipo de empleo, tanto para hombres como para mujeres y uno de los datos que nos muestra la siguiente tabla es que la media en empleo parcial de mujeres llega casi al 60 y en los hombres no hay dato alguno. 
+
 
 
 ```{r warning=FALSE, fig.width=10, fig.height=4, fig.align='center'}
@@ -480,6 +510,7 @@ head(actividades_mujeres,10) |>
 ```{r warning=FALSE}
 G8 <- ggplot(actividades_mujeres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
+  theme_classic()+
   scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
   limits = c(0, 100)) +
   labs(title = "Gráfico 8 - Distribución de la actividad femenina")
@@ -500,14 +531,30 @@ head(actividades_hombres,10) |>
 
 ```
 
+#### “Eso que llaman amor, es trabajo no pago”
+
+En el gráfico 8 tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos **¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?**
 
 
-En el gráfico 8 podemos tenemos la distribución de las actividades femenina, donde podemos apreciar que en gran porcentaje las mujeres realizan trabajo parcial, informal o trabajo doméstico lo que implica menos ingresos y nos preguntamos ¿Los trabajos domésticos, le restan tiempo a las mujeres para realizar trabajo remunerado?
+```{r warning=FALSE}
+# Busco la distribución de la ocupación de los hombres
+actividades_hombres <- empleo_Arg %>%
+  mutate(sexo = ifelse(str_detect(variable,"hombres"),"Hombre","Mujer")) %>% 
+  filter(sexo == "Hombre") %>% 
+  filter(variable != "desempleo_hombres" & variable != "desempleo_educacion_hombres") %>% 
+  group_by(variable) %>% 
+  summarise(media = mean(porcentaje,na.rm = TRUE))
+
+head(actividades_hombres,10) |> 
+  gt()
+
+```
 
 
 ```{r fig.width=10, fig.height=5, fig.align='center', warning=FALSE}
 G9 <- ggplot(actividades_hombres, aes(media, variable, fill = variable)) +
   geom_col(position=position_dodge()) +
+  theme_classic()+
   scale_x_continuous(breaks = get_breaks(by = 20, from = 0),
   limits = c(0, 80)) +
   labs(title = "Gráfico 9 - Distribución de la actividad masculina")
@@ -521,11 +568,9 @@ G9
 ```
 
 
-**“Eso que llaman amor, es trabajo no pago”**
-
 Efectivamente, la distribución de estas tareas entre los géneros es marcadamente desigual. El porcentaje del día utilizado por las mujeres para hacer tareas domésticas es de 19.21%, y los hombres, solo el 7.31%.
-Incluso una mujer que trabaja (fuera del hogar y de manera paga) en una jornada completa dedica más horas a estas tareas, en otros casos las mujeres trabajan en forma parcial o trabajo informal para dedicarle tiempo a la crianza de sus hijos o al cuidado de un familiar, ya que estas tareas en muchos casos le quitan tiempo para realizar trabajo remunerado.
-Así las cosas, las mujeres quedan inmersas en una suerte de círculo vicioso, en el que no sólo dedican gran parte de su tiempo a este tipo de tareas no remuneradas, sino que, al hacerlo, acrecientan sus desventajas con respecto al mercado laboral remunerado. Lamentablemente es una tarea que se asocia al rol femenino y a pesar que en los últimos años hay más participación en las tareas domésticas por parte de los hombres, la brecha sigue siendo importante.
+Incluso una mujer que trabaja (fuera del hogar y de manera paga) en una jornada completa dedica más horas a estas tareas, en otros casos las mujeres trabajan en forma parcial o trabajo informal para dedicarle tiempo a la crianza de sus hijos o al cuidado de un familiar, ya que estas tareas en muchos casos le quitan tiempo para realizar trabajo remunerado, tal como nos indica la tabla donde nos muestra que la media del trabajo parcial en mujeres llega casi al 60 y en los hombres no hay datos.
+Así las cosas, las mujeres quedan inmersas en una suerte de círculo vicioso, en el que no sólo dedican gran parte de su tiempo a este tipo de tareas no remuneradas, sino que, al hacerlo, acrecientan sus desventajas con respecto al mercado laboral remunerado. Lamentablemente es una tarea que se asocia al rol femenino y a pesar que en los últimos años hay más participación en las tareas domésticas por parte de los hombres, la brecha sigue siendo importante como nos muestra el grafico 4.
 
 
 ```{r warning=FALSE, fig.align='center'}
