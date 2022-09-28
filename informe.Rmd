@@ -137,7 +137,9 @@ El primer análisis que podemos hacer es comparar ciertos datos estadísticos co
 
 ```{r}
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
+  theme_classic()+
   scale_fill_manual(values=c("#efc3c0", "#23c5c9")) +
+  
 labs(title = "Gráfico 1 - Desempleo por género y año")
 
 ```
@@ -164,6 +166,7 @@ mdesempleo2 <- mdesempleo |>
 
 
 G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
+  
   scale_fill_manual(values=c("#efc3c0", "#23c5c9")) +
   geom_col(width = 1, color = 1) +
   coord_polar(theta = "y") +
