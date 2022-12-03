@@ -6,6 +6,8 @@ output:
     toc: TRUE
     toc_float: TRUE
     code_folding: hide
+    code_download: TRUE
+    pdf_document: default
       
 ---
 
@@ -143,8 +145,15 @@ knitr::kable(mdesempleo)
 El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
 ```{r warning=FALSE}
+#| fig.cap: "Texto"
+#| fig.alt: "Texto alternativo"
+#| fig.aling: "center"
+#| fig.width: 3
+#| fig.heigth: 3
+
+
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  #scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   theme_classic()+
 labs(title = "Gráfico 1 - Desempleo por género y año")
 
@@ -152,8 +161,8 @@ labs(title = "Gráfico 1 - Desempleo por género y año")
 ```{r warning=FALSE}
 G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
   geom_line(aes(color = sexo),lwd = 1.2)+
-  theme_classic()+
- scale_color_manual(values=c("#DC143C", "#2E8B57"))
+  theme_classic()
+ #scale_color_manual(values=c("#DC143C", "#2E8B57"))
 
 ```
 
@@ -172,15 +181,15 @@ mdesempleo2 <- mdesempleo |>
 
 
 G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
-  scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
+  #scale_fill_manual(values=c("#DC143C", "#2E8B57")) +
   geom_col(width = 1, color = 1) +
   coord_polar(theta = "y") +
   geom_label_repel(data = mdesempleo2,
                    aes(y = pos, label = paste0(media, "%")),
                    size = 4.5, nudge_x = 1, show.legend = FALSE) +
   guides(fill = guide_legend(title = "% Promedio")) +
-  theme_void()
-
+  #theme_void()
+theme_classic()
 ```
 
 
