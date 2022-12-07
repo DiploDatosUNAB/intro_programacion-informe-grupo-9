@@ -191,10 +191,8 @@ Desempleo es una tabla de 4 variables y 70 observaciones. Deriva de la tabla emp
 
 El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
-```{r fig.height=5, fig.width=8, message=TRUE, warning=TRUE}
 
-
-
+```{r fig.height=5, fig.width=8, message=TRUE, warning=FALSE}
 
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
