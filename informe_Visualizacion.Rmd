@@ -85,7 +85,9 @@ empleo_Arg_ancho <- pivot_wider(empleo_Arg,
 
 # Comparación del desempleo por género, filtro variable por desempleo y agrego columna con el sexo
 desempleo <- dplyr::filter(empleo_Arg,variable %in% c("desempleo_mujeres","desempleo_hombres"))  |> 
+             
              mutate(sexo = ifelse(variable == "desempleo_mujeres","Mujer","Hombre")) 
+  
  
 # # Cálculo de estadísticos
  # mdesempleo <- desempleo  |>  group_by(variable)  |>  
@@ -167,7 +169,7 @@ empleadores <- dplyr::filter(empleo_Arg, variable %in% c("empleadoras_mujeres","
     group_by(variable) %>% 
     summarise(media = mean(porcentaje,na.rm = TRUE))
   
-  head(actividades_mujeres,10) |> 
+  head(empleo_Arg_ancho,5) |> 
     gt()
 
 ```
@@ -189,13 +191,9 @@ Desempleo es una tabla de 4 variables y 70 observaciones. Deriva de la tabla emp
 
 El primer análisis que podemos hacer es comparar ciertos datos estadísticos con respecto a la desocupación. En la siguiente tabla se puede observar la diferencia entre los valores con un promedio del 12.22 para las mujeres y del 9.91 para los hombres. Dentro de los datos no se encontró ninguna anomalía que sugiera que hay datos incorrectos o Valores imposibles.
 
-```{r warning=FALSE}
+```{r fig.height=5, fig.width=8, message=TRUE, warning=TRUE}
 
-#| fig.cap: "Texto",
-#| fig.alt: "Texto alternativo",
-#| fig.aling: "center",
-#| fig.width: 20,
-#| fig.heigth: 12
+
 
 
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
@@ -205,6 +203,9 @@ labs(title = "Gráfico 1 - Desempleo por género y año")
 
   G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
   geom_line(aes(color = sexo),lwd = 1.2)+
+  scale_y_continuous(limits=c(0,25), breaks = c(0,5,10,15,20,25), expand = c(0, 0)) +
+  scale_x_continuous(limits=c(1990,2010),breaks = c(1990,2000,2010), expand = c(0,1))+
+  scale_color_manual(labels = c("Hombres", "Mujeres"), values = c("#213A40", "#D9325E"))+
   theme_classic()+
   theme(axis.text.x = element_text(size = 9),  
         axis.text.y = element_text(size = 9),
@@ -227,18 +228,19 @@ labs(title = "Gráfico 1 - Desempleo por género y año")
  
  
  
- G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
-   scale_fill_manual(values=c("#213A40", "#D9325E")) +
-   geom_col(width = 1, color = 1) +
-   coord_polar(theta = "y") +
-   geom_label_repel(data = mdesempleo2,
-                    aes(y = pos, label = paste0(media, "%")),
-                    size = 4.5, nudge_x = 1, show.legend = FALSE) +
-   guides(fill = guide_legend(title = "% Promedio")) +
-   #theme_void()
- theme_classic()
+ # G1_3 <- ggplot(mdesempleo, aes(x = "" , y = media, fill = variable)) +
+ #   scale_fill_manual(values=c("#213A40", "#D9325E")) +
+ #   geom_col(width = 1, color = 1) +
+ #   coord_polar(theta = "y") +
+ #   geom_label_repel(data = mdesempleo2,
+ #                    aes(y = pos, label = paste0(media, "%")),
+ #                    size = 4.5, nudge_x = 1, show.legend = FALSE) +
+ #   guides(fill = guide_legend(title = "% Promedio Desempleo")) +
+ #   
+ #   #theme_void()
+ # theme_classic()
    
-   G1_1 / (G1_2 + G1_3) 
+   G1_1 / G1_2  
 ```
 
 
@@ -307,13 +309,7 @@ Aquí tenemos 30 observaciones. Esta tabla computa sólo el empleo doméstico, n
 #### Valores estadísticos en empleo doméstico
 
 
-
-
-
-
 Es imposible imaginar un mundo en el cual no exista quien realice las tareas cotidianas de la vida, como alimentar a un/a bebé, limpiar la casa o hacer las compras. Lamentablemente es una tarea que se asocia al rol femenino y actualmente sigue habiendo una brecha muy marcada donde en los datos estadísticos la media nos muestra un 19.21% para las mujeres y un 7.31% para los hombres. 
-
-
 
 
 
