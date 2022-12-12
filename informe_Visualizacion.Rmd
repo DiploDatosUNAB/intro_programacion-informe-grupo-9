@@ -410,7 +410,7 @@ Jefes_vs_desempleocal$variable <- str_replace(Jefes_vs_desempleocal$variable, "e
 
 G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
         horizontal = TRUE,
-        col = c("#8FBC8F","#DDA0DD", "#00FFFF", "#F4A460"), 
+        col = c("#d7301f","#fecc5c", "#ffffb2", "#fc8d59"), 
         outbg = "black", 
         outpch = 23,
         ylab = "",
@@ -421,7 +421,7 @@ G7 <- boxplot(Jefes_vs_desempleocal$porcentaje ~ Jefes_vs_desempleocal$variable,
         medbg = 1)
 title ("Gráfico 7 - Empleadores vs desempleo calificado")
 legend(8, 4, c("Desemplao Calificado Hombres", "Desemplao Calificado Mujeres", "Jefas", "Jefes"),
-       fill = c("#8FBC8F","#DDA0DD", "#00FFFF", "#F4A460"))
+       fill = c("#d7301f","#fecc5c", "#ffffb2", "#fc8d59"))
 
 
 ```
