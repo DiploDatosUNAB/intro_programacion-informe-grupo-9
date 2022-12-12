@@ -209,23 +209,37 @@ El primer análisis que podemos hacer es comparar ciertos datos estadísticos co
 ```{r fig.height=5, fig.width=8, message=TRUE, warning=FALSE}
 G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
-  theme_classic()+
-labs(title = "Gráfico 1 - Desempleo por género y año")
-
-  G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
-  geom_line(aes(color = sexo),lwd = 1.2)+
-  scale_y_continuous(limits=c(0,25), breaks = c(0,5,10,15,20,25), expand = c(0, 0)) +
-  scale_x_continuous(limits=c(1990,2010),breaks = c(1990,2000,2010), expand = c(0,1))+
-  scale_color_manual(labels = c("Hombres", "Mujeres"), values = c("#213A40", "#D9325E"))+
-  theme_classic()+
+  theme_classic() +
   theme(axis.text.x = element_text(size = 9),  
         axis.text.y = element_text(size = 9),
-        legend.position = "bottom",
+        legend.position = "right",
         legend.box.background= element_rect(color = "grey"),
         axis.ticks = element_blank(),
         panel.grid = element_blank(),
         panel.grid.major.x = element_line(size=0.05, color = "#f2f5f3"),
-        panel.grid.major.y = element_line(size=0.05, color = "#f2f5f3"))
+        panel.grid.major.y = element_line(size=0.05, color = "#f2f5f3")) +
+  labs(title = "Gráfico 1 - Desempleo por género y año", x = "Año", y = "Porcentaje") +
+  annotate("text", x = 2011, y = 15, angle = 90,label = "Período sin datos") +
+  annotate("segment", x = 2013, xend = 2013, y = 25, yend = 5,  arrow = arrow())
+
+  G1_2 <- ggplot(desempleo,aes(Anio,porcentaje)) +
+  geom_line(aes(color = sexo),lwd = 1.2)+
+  scale_y_continuous(limits=c(0,25), breaks = c(0,5,10,15,20,25), expand = c(0, 0)) +
+  scale_x_continuous(limits=c(1980,2020),breaks = c(1990,2000,2010,2020), expand = c(0,1))+
+  scale_color_manual(labels = c("Hombres", "Mujeres"), values = c("#213A40", "#D9325E"))+
+  theme_classic()+
+  theme(axis.text.x = element_text(size = 9),  
+        axis.text.y = element_text(size = 9),
+        legend.position = "right",
+        legend.box.background= element_rect(color = "grey"),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        panel.grid.major.x = element_line(size=0.05, color = "#f2f5f3"),
+        panel.grid.major.y = element_line(size=0.05, color = "#f2f5f3")) +
+  annotate("text", x = 2011, y = 15, angle = 90,
+       	label = "Período sin datos") +
+  annotate("segment", x = 2013, xend = 2013, y = 25, yend = 5,  arrow = arrow()) +
+    labs(x = "Año", y = "Porcentaje")
   
    mdesempleo <- desempleo  |>  
    group_by(variable) |> 
@@ -240,7 +254,8 @@ labs(title = "Gráfico 1 - Desempleo por género y año")
 ```
 
 ```{r fig.height=5, fig.width=8, message=TRUE, warning=FALSE}
-G1_1 / G1_2
+G1_1 / G1_2  
+
 ```
 
 
@@ -268,7 +283,15 @@ G2 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE
   theme_classic()+
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
-  labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año")
+  labs(title = "Gráfico 2 - Desempleo femenino y masculino, con educación terciaria, por año", x = "Año", y = "Distribución (%)") +
+  annotate("text", x = 2000, y = 5, angle = 90,
+       	label = "Crisis del 2001") +
+  annotate("segment", x = 2001, xend = 2001, y = 15, yend = 1,  arrow = arrow()) +
+  annotate("text", x = 2006, y = 10, angle = -65,
+       	label = "Baja el desempleo") +
+  annotate("segment", x = 2004, xend = 2007, y = 15, yend = 4,  arrow = arrow()) +
+  annotate("text", x = 2012, y = 7, angle = 0,
+       	label = "Pero el desempleo femenino sigue por encima")
 
 G2
 ```
@@ -292,7 +315,7 @@ G3 <- ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
   theme_classic()+
-  labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género")
+  labs(title = "Gráfico 3 - Distribución del empleo por tipo de actividad y género", x = "Tipo de Actividad", y = "Distribución (%)")
 
 G3
 ```
@@ -318,14 +341,11 @@ Es imposible imaginar un mundo en el cual no exista quien realice las tareas cot
 ```{r,fig.width=10, fig.height=5, fig.align='center', warning=FALSE}
 G5 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
-  
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
   scale_color_manual(labels= c("Hombres","Mujeres"), values = c("#213A40", "#D9325E"))+
-  labs(x="Años", y = "Tiempo en %", color = "Sexo")+
+  labs(title = "Gráfico 5 - Empleadores por género y año", x = "Años", y = "Porcentaje", color = "Sexo")+
   scale_x_continuous(limits=c(1990,2018),breaks = c(1990,1995,2000,2005,2009,2013,2018)) +
-  theme_classic()+
-  theme_classic()+
-  labs(title = "Gráfico 5 - Empleadores por género y año")
+  theme_classic()
 
 G5
 ```
@@ -352,8 +372,6 @@ Si bien el desempleo calificado es generalizado tanto para la mujer como para el
 
 
 
-
-
 En el gráfico 5 se hizo una comparativa con las variables desempleo nivel terciario y empleadores, donde nos muestra claramente la brecha. El porcentual de empleadores/as alcanza el 3.13 % cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 % y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales. Finalmente podemos decir que la respuesta es que la mujer con el mismo nivel académico NO tiene las mismas oportunidades que el hombre de ocupar un puesto jerárquico o de ser empleadora.
 
 
@@ -369,7 +387,7 @@ G6 <-empleadores %>%
   geom_point(aes(color=factor(sexo)), size=2, alpha = 0.8)+
   geom_smooth(aes(color=sexo), span=0.8, method = "lm")+
   scale_color_manual(labels= c("Hombres","Mujeres"), values = c("#213A40", "#D9325E"))+
-  labs(x="Años", y = "Tiempo en %", color = "Sexo")+
+  labs(title = "Gráfico 6 - Empleadores por género y año", x = "Años", y = "Porcentaje", color = "Sexo")+
   scale_x_continuous(limits=c(1990,2018),breaks = c(1990,1995,2000,2005,2009,2013,2018)) +
   theme_classic()+
   theme(axis.text.x = element_text( size = 9),  
@@ -379,11 +397,7 @@ G6 <-empleadores %>%
         axis.ticks = element_blank(),
         panel.grid = element_blank(),
         panel.grid.major.x = element_line(size=0.05, color = "#f2f5f3"),
-        panel.grid.major.y = element_line(size=0.05, color = "#f2f5f3"))+
-labs(title = "Gráfico 6 - Empleadores por género y año")
-#   facet_wrap(~sexo, ncol = 2)
-
-
+        panel.grid.major.y = element_line(size=0.05, color = "#f2f5f3")) 
 
 
 G6
