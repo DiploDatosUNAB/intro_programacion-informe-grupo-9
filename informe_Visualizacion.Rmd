@@ -124,6 +124,25 @@ empleadores <- dplyr::filter(empleo_Arg, variable %in% c("empleadoras_mujeres","
     group_by(variable) %>% 
     summarise(media = mean(porcentaje,na.rm = TRUE))
  
+  empleo_genero1 <- empleo_Arg %>% 
+  # creo una columna de sexo según el dato de la columna variable
+  mutate(sexo = ifelse(endsWith(variable, "_mujeres"), "mujer", ifelse(endsWith(variable, "_hombres"), "hombre", ""))) %>% 
+  # y ahora se lo extraigo y renombro la columna a fuerza laboral
+  rename("variable" = "variable") %>% 
+  mutate(variable = str_remove(variable, c("_mujeres"))) %>% 
+  mutate(variable = str_remove(variable, c("_hombres")))  %>% 
+  # ordeno las columnas y dejo afuera las que no necesito (en este caso, en la variable país, me quedo solo con el código ISO)
+  select(c( Anio, variable, sexo, porcentaje))
+  
+  
+  
+  EmpleoAR1 <- gt(head(empleo_genero1,5)) |> 
+      tab_header(title = md("**Distribución del empleo en Argentina**"),
+                 subtitle = "Años 1991 a 2018") |> 
+      cols_label(Anio = "Año", variable = "variable", sexo = "Sexo", 
+                 porcentaje = "porcentaje") |>
+    cols_align(align = "center", columns = everything()) |> 
+    tab_source_note(md("*Fuente: Banco Mundial sobre empleo/desempleo y género para Latinoamérica y Caribe (1970 a 2018)*")) 
   
 EmpleoAR <- gt(head(empleo_Arg_ancho,5)) |> 
       tab_header(title = md("**Distribución del empleo en Argentina**"),
@@ -142,7 +161,7 @@ EmpleoAR <- gt(head(empleo_Arg_ancho,5)) |>
     cols_align(align = "center", columns = everything()) |> 
     tab_source_note(md("*Fuente: Banco Mundial sobre empleo/desempleo y género para Latinoamérica y Caribe (1970 a 2018)*")) 
 
-EmpleoAR
+EmpleoAR1
 
 
 
