@@ -34,10 +34,12 @@ library(gt)
 
 # Introducción
 
+
 El objetivo de este informe es visibilizar las diferencias que, de acuerdo al género de las personas, pueden encontrarse en el ámbito del mercado de trabajo en Argentina desde el año 1982 hasta 2018, como el desempleo, la cantidad de empleadores/as, la distribución de las tareas domésticas. Para ello se presenta una serie gráficos. 
 
 
 # Exploración de los datos
+
 
 Los datos utilizados en este informe fueron tomados por el Banco Mundial sobre empleo/desempleo y género para algunos países de Latinoamérica y el Caribe, entre los años 1970 y 2018. Estos datos fueron provistos en formato de *data-frame* y contienen una cantidad de variables que aportan datos sobre el empleo/desempleo, tipo de empleo/actividad y legislación.
 
@@ -194,7 +196,9 @@ empleadores <- dplyr::filter(empleo_Arg, variable %in% c("empleadoras_mujeres","
 
 ## Descripción y cantidad de observaciones
 
+
 En la tabla que sigue podemos ver el aspecto general del conjunto de datos con el que trabajaremos, de 4 variables y 700 observaciones que muestra la distribución del empleo y el desempleo en Argentina por género y la existencia o no de legislación sobre el acoso sexual. Los datos se muestran como porcentajes. 
+
 
 
 ```{r warning=FALSE, fig.alt="Tabla que muestra la distribución del empleo en Argentina, por sexo. Contepla las áreas de empleo como agricultura, industria, servicios, empleo informal, parcial, autoempleo y trabajo doméstico no remunerado, como así también el desempleo, desempleo calificado y el relevamiento de empleadores hombres y mujeres."}
@@ -294,9 +298,12 @@ G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=
  G1_1 / G1_2  
 ```
 
+
 Con cualquiera de los gráficos podemos ver que a lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo.
 
+
 ## Tipos de actividad
+
 
 A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado, consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos con un rol "femenino". En el gráfico 2 podemos apreciar que en el sector de servicios las mujeres superan el 80% y en la industria, donde la brecha está muy marcada, no supera el 12%.
 
@@ -321,9 +328,12 @@ G2 <- ggplot(tipo_empleo,aes(tipo,porcentaje, fill = sexo)) +
 G2
 ```
 
+
 La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
 
+
 ## Desempleo calificado
+
 
 La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
@@ -350,7 +360,9 @@ G3 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE
 G3
 ```
 
+
 ## Empleadores por género
+
 
 Quizás viendo los datos anteriores uno pensaría que esa brecha puede originarse en la falta de educación o que los hombres están más preparados académicamente que las mujeres y de esa manera tener más oportunidades en el campo laboral dejando de lado la famosa teoría del techo de cristal, esa barrera invisible que impide que las mujeres alcancen las mismas posiciones de poder que los hombres y que está relacionada directamente con las normas y los estereotipos.  Ahí nos surgen las siguientes preguntas **¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos? ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?**
 
@@ -374,7 +386,9 @@ G4 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
 G4
 ```
 
+
 El porcentual de empleadores/as alcanza el 3.13 % cuando la diferencia de desempleo nivel terciario como mencionamos anteriormente era del 1.81 % y eso muestra la desventaja que existe entre el hombre y la mujer a la hora de tener oportunidades laborales,como también de ser considerada para un puesto jerárquico.
+
 
 ```{r warning=FALSE, cache=FALSE, message=FALSE, fig.align='center', fig.alt="El gráfico 5 es un gráfico de dispersión con eje medio y smooth que representa: Empleadores por genero y año (años 1990 al 2018) en el eje x y la distribución en porcentaje en el eje y del 0 al 6%. En el gáfico sucede algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantuvo bastante estable a través de los años observados."}
 
@@ -401,6 +415,7 @@ G5 <-empleadores %>%
 
 G5
 ```
+
 
 
 En el gráfico 5 - Empleadores por género y año podemos observar algo bastante particular, y es que, mientras el porcentaje promedio de empleadores tiene una clara caída con una pendiente bien marcada, el porcentaje de empleadoras se mantuvo bastante estable a través de los años observados, a pesar de que mostró una inflexión similar entre los años 2005 y 2007 aproximadamente. Si bien no tenemos datos suficientes para demostrarlo, nuestra sospecha es que la misma desigualdad ha provocado que las mujeres que logran alcanzar un puesto de jefas, lo hagan con mucha más solidez que los hombres, lo que en épocas de inestabilidad económica se traduzca en una menor caída en esos puestos de trabajo. Otro dato notable para destacar es que a pesar de existir una caida pronunciada en el porcentaje empleadores hombres, no existe una subida pronunciada en empleadoras mujeres que indique que fueron adquiriendo más oportunidades, por el contrario se mantuvo estable. 
@@ -440,6 +455,7 @@ El gráfico 6 no sólo confirma sino que amplía lo que podemos observar en el g
 
 
 # Conclusiones
+
 
 Sin lugar a dudas, el análisis realizado permite concluir que aún existe una amplia brecha laboral de género. Si bien las mujeres representan la mitad de la población, su tasa de empleo sigue siendo más baja que la de los varones. La brecha con los hombres es todavía importante, y demuestra que a pesar de tener los mismos niveles de formación profesional las mujeres no tienen las mismas oportunidades y eso hace que el objetivo de igual remuneración por igual trabajo sea una promesa incumplida.
 Por último, cabe destacar que la mujer destina gran parte de su tiempo a las tareas domésticas. Estos aspectos dan cuenta de los roles atribuidos históricamente a varones y mujeres y su incidencia sobre el mercado de trabajo, donde el hombre se encarga del trabajo productivo y la mujer del trabajo reproductivo, restándole tiempo para realizar trabajo remunerado que le permita un mejor desarrollo económico.
