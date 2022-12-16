@@ -204,7 +204,7 @@ EmpleoAR1
 
 ```
 
-# Desempleo
+## Desempleo
 
 ¿Por qué debería preocuparnos la brecha de género en lo laboral? La libertad de trabajar, por decisión propia y en condiciones de dignidad, seguridad y equidad, es esencial para el bienestar humano. Garantizar que la mujer goce de este derecho es un objetivo importante en sí mismo. 
 
@@ -296,7 +296,7 @@ G1_1 <- ggplot(desempleo,aes(Anio,porcentaje, fill = sexo)) + geom_col(position=
 
 Con cualquiera de los gráficos podemos ver que a lo largo de los años, este comportamiento se mantiene, registrándose una diferencia importante entre los porcentajes de desempleo.
 
-# Tipos de actividad
+## Tipos de actividad
 
 A pesar de que las mujeres entran cada día con más fuerza al mercado laboral remunerado, consideramos que todavía se le hace difícil desarrollarse en cualquier sector. Típicamente, cuando pensamos en los trabajos generados en el sector de la construcción o en el transporte, lo primero que se nos viene a la cabeza son los hombres. Nos cuesta imaginarnos a una mujer en estas ocupaciones tradicionalmente consideradas como “masculinas” y cuando hablamos de trabajo doméstico lo relacionamos con un rol "femenino". En el gráfico 2 podemos apreciar que en el sector de servicios las mujeres superan el 80% y en la industria, donde la brecha está muy marcada, no supera el 12%.
 
@@ -323,7 +323,7 @@ G2
 
 La segregación horizontal establece las ocupaciones y actividades que la sociedad considera adecuadas para las mujeres o los varones, como podemos observar en el gráfico de tipo de empleo donde muestra que en el sector de la industria la brecha es mucho mayor que en otras actividades, lo que restringe las posibilidades de realización personal y profesional de cada persona.
 
-# Desempleo calificado
+## Desempleo calificado
 
 La población de mujeres con nivel terciario desempleadas llega casi al 6%, mientras que los varones apenas superan el 4%. Si bien las credenciales educativas de las mujeres parecieran favorecer su participación en el mercado de trabajo, cuando analizamos los datos como mujeres trabajadoras sigue en evidencia la situación de desventaja para ellas.
 
@@ -350,7 +350,7 @@ G3 <- ggplot(desempleo_calificado,aes(Anio,porcentaje, fill = sexo, na.rm = TRUE
 G3
 ```
 
-# Empleadores por genero
+## Empleadores por género
 
 Quizás viendo los datos anteriores uno pensaría que esa brecha puede originarse en la falta de educación o que los hombres están más preparados académicamente que las mujeres y de esa manera tener más oportunidades en el campo laboral dejando de lado la famosa teoría del techo de cristal, esa barrera invisible que impide que las mujeres alcancen las mismas posiciones de poder que los hombres y que está relacionada directamente con las normas y los estereotipos.  Ahí nos surgen las siguientes preguntas **¿Las mujeres con el mismo nivel académico que los hombres tienen las mismas oportunidades de ocupar un puesto jerárquico?, ¿y cuando hablamos de cargos jerárquicos? ¿qué tanta diferencia hay entre los ingresos de los hombres y de las mujeres?**
 
@@ -362,7 +362,7 @@ G4 <- ggplot(empleadores, aes(Anio,porcentaje, fill = sexo, na.rm = TRUE)) +
   geom_col(position=position_dodge()) + 
   scale_fill_manual(values=c("#213A40", "#D9325E")) +
   scale_color_manual(labels= c("Hombres","Mujeres"), values = c("#213A40", "#D9325E"))+
-  labs(title = "Gráfico 4 - Empleadores por género y año", x = "Años", y = "Porcentaje", color = "Sexo",
+  labs(title = "Gráfico 4 - Empleadores por género y año", x = "Años", y = "Distribución (%)", color = "Sexo",
        caption = "*Fuente: Banco Mundial sobre empleo/desempleo y género para Latinoamérica y Caribe (1970 a 2018)*")+
   scale_x_continuous(limits=c(1990,2020), breaks = c(1990,1995,2000,2005,2010,2015,2020)) +
   scale_y_continuous(limits = c(0,8), breaks = c(seq(0,8,1)), expand = c(0,0)) +
